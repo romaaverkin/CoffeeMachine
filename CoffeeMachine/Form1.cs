@@ -22,8 +22,9 @@ namespace CoffeeMachine
         private void Form1_Load(object sender, EventArgs e)
         {
             vendingMachine = new VendingMachine();
-            //Подписались на событие
+            //Подписались на событие клиет кликнул по кнопке выбора напитков
             vendingMachine.SetValueDrink += SetValueSelectedDrinkLabel;
+            vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtoncDrink;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -60,7 +61,7 @@ namespace CoffeeMachine
             var button = (Button)sender;
             int buttonTag = Convert.ToInt32(button.Tag);
 
-            vendingMachine.SetValueSelectedDrink(buttonTag);
+            vendingMachine.ClickButtonDrink(buttonTag);
         }
 
         private void CoinsInVendingMashine(object sender, EventArgs e)
@@ -68,9 +69,21 @@ namespace CoffeeMachine
             throw new NotImplementedException();
         }
 
+        //Устанавливае значение поля выбранного напитка
         public void SetValueSelectedDrinkLabel()
         {
             selectedDrinkLabel.Text = vendingMachine.selectedDrink;
+        }
+
+        //Видимы ли кнопки выбора напитков
+        public void SetVisibilityButtoncDrink()
+        {
+            bool CoffeBuy = vendingMachine.CoffeBuy;
+
+            for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
+            {
+                DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = CoffeBuy;
+            }
         }
     }
 }

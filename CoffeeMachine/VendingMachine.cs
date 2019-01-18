@@ -10,8 +10,20 @@ namespace CoffeeMachine
         public delegate void MethodSetValueDrink();
         public event MethodSetValueDrink SetValueDrink;
 
+        public delegate void MethodVisibleButtonsDrink();
+        public event MethodVisibleButtonsDrink SetVisibleButtonsDrink;
+
         //Выбранный напиток
         public string selectedDrink = "Выберите напиток";
+
+        //цена выбранного клиентом напитка
+        public int PriceSelectedDrink = 0;
+
+        //Внесенная клиентом сумма
+        public int AmountPaid = 0;
+
+        //Кофе куплен
+        public bool CoffeBuy = false;
 
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
@@ -40,12 +52,15 @@ namespace CoffeeMachine
             coinsInVendingMashine.Sort();
         }
 
-        public void SetValueSelectedDrink(int tag)
+        //Клик по кнопек выбора напитков
+        public void ClickButtonDrink(int tag)
         {
             Drink drink = myDrinks[tag];
             selectedDrink = $"Вы выбрали\n{drink.Name} - {drink.Price} руб.";
+            PriceSelectedDrink = drink.Price;
 
             SetValueDrink?.Invoke();
+            SetVisibleButtonsDrink?.Invoke();
         }
     }
 }
