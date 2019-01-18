@@ -25,6 +25,7 @@ namespace CoffeeMachine
             //Подписались на событие клиет кликнул по кнопке выбора напитков
             vendingMachine.SetValueDrink += SetValueSelectedDrinkLabel;
             vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtoncDrink;
+            vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtonsMoney;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -83,6 +84,17 @@ namespace CoffeeMachine
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
                 DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = CoffeBuy;
+            }
+        }
+
+        //Видимы ли кнопки внесения денег
+        public void SetVisibilityButtonsMoney()
+        {
+            bool CoffeBuy = vendingMachine.CoffeBuy;
+
+            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
+            {
+                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = !CoffeBuy;
             }
         }
     }
