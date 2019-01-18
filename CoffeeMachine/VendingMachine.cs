@@ -7,6 +7,12 @@ namespace CoffeeMachine
 {
     class VendingMachine
     {
+        public delegate void MethodSetValueDrink();
+        public event MethodSetValueDrink SetValueDrink;
+
+        //Выбранный напиток
+        public string selectedDrink = "Выберите напиток";
+
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
         {
@@ -20,13 +26,6 @@ namespace CoffeeMachine
         //Коллекция видов монет
         public List<Coin> coinsInVendingMashine = new List<Coin>
         {
-            //для моделирования, когда некоторые монеты кончатся
-            //new Coin(2, 10),
-            //new Coin(10, 0),
-            //new Coin(5, 10),
-            //new Coin(25, 2),
-            //new Coin(1, 0)
-
             new Coin(2, 10),
             new Coin(10, 10),
             new Coin(5, 10),
@@ -39,6 +38,14 @@ namespace CoffeeMachine
         {
             myDrinks.Sort();
             coinsInVendingMashine.Sort();
+        }
+
+        public void SetValueSelectedDrink(int tag)
+        {
+            Drink drink = myDrinks[tag];
+            selectedDrink = $"Вы выбрали\n{drink.Name} - {drink.Price} руб.";
+
+            SetValueDrink?.Invoke();
         }
     }
 }
