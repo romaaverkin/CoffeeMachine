@@ -31,7 +31,7 @@
             this.selectedDrinkLabel = new System.Windows.Forms.Label();
             this.paymentLabel = new System.Windows.Forms.Label();
             this.DrinksFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.CoinsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.nameButton = new System.Windows.Forms.Button();
             this.currentBalanceVendingMachineLabel = new System.Windows.Forms.Label();
             this.yourСhangelabel = new System.Windows.Forms.Label();
@@ -66,16 +66,16 @@
             this.DrinksFlowLayoutPanel.Size = new System.Drawing.Size(180, 300);
             this.DrinksFlowLayoutPanel.TabIndex = 2;
             // 
-            // flowLayoutPanel1
+            // CoinsFlowLayoutPanel
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(223, 50);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(180, 300);
-            this.flowLayoutPanel1.TabIndex = 3;
+            this.CoinsFlowLayoutPanel.AutoScroll = true;
+            this.CoinsFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CoinsFlowLayoutPanel.Location = new System.Drawing.Point(223, 50);
+            this.CoinsFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.CoinsFlowLayoutPanel.Name = "CoinsFlowLayoutPanel";
+            this.CoinsFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(10);
+            this.CoinsFlowLayoutPanel.Size = new System.Drawing.Size(180, 300);
+            this.CoinsFlowLayoutPanel.TabIndex = 3;
             // 
             // nameButton
             // 
@@ -111,12 +111,13 @@
             this.Controls.Add(this.yourСhangelabel);
             this.Controls.Add(this.currentBalanceVendingMachineLabel);
             this.Controls.Add(this.nameButton);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.CoinsFlowLayoutPanel);
             this.Controls.Add(this.DrinksFlowLayoutPanel);
             this.Controls.Add(this.paymentLabel);
             this.Controls.Add(this.selectedDrinkLabel);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,7 +128,7 @@
         private System.Windows.Forms.Label selectedDrinkLabel;
         private System.Windows.Forms.Label paymentLabel;
         private System.Windows.Forms.FlowLayoutPanel DrinksFlowLayoutPanel;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel CoinsFlowLayoutPanel;
         private System.Windows.Forms.Button nameButton;
         private System.Windows.Forms.Label currentBalanceVendingMachineLabel;
         private System.Windows.Forms.Label yourСhangelabel;
