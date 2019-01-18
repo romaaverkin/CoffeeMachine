@@ -55,6 +55,8 @@ namespace CoffeeMachine
                 moneyButton.Click += CoinsInVendingMashine;
                 CoinsFlowLayoutPanel.Controls.Add(moneyButton);
             };
+
+            CoinsInMachine();
         }
 
         private void DrinkButtonOnClick(object sender, EventArgs e)
@@ -96,6 +98,19 @@ namespace CoffeeMachine
             {
                 CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = !CoffeBuy;
             }
+        }
+
+        //Узнать сколько монет есть в машине
+        public void CoinsInMachine()
+        {
+            string CoinsInTheMachine = "Сейчас есть\n";
+
+            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
+            {
+                CoinsInTheMachine += $"{vendingMachine.coinsInVendingMashine[i].Rating} руб. в количестве {vendingMachine.coinsInVendingMashine[i].Quantity} штук\n";
+            }
+
+            currentBalanceVendingMachineLabel.Text = CoinsInTheMachine;
         }
     }
 }
