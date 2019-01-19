@@ -7,20 +7,13 @@ namespace CoffeeMachine
 {
     class VendingMachine
     {
-        public delegate void MethodSetValueDrink(string drink);
-        public event MethodSetValueDrink SetValueDrink;
-
-        public delegate void MethodVisibleButtonsDrink(bool visible);
-        public event MethodVisibleButtonsDrink SetVisibleButtonsDrink;
-
-        public delegate void MethodVisibleButtonsMoney(bool visible);
-        public event MethodVisibleButtonsMoney SetVisibleButtonsMoney;
-
-        public delegate void MethodSetValueInvestedClient(string message);
-        public event MethodSetValueInvestedClient SetValueInvestedClient;
-
-        public delegate void MethodSetVisibilityButtonBuy(bool visible);
-        public event MethodSetVisibilityButtonBuy SetVisibilityButtonBuy;
+        public delegate void MethodSetValue(string value);
+        public event MethodSetValue SetValueInvestedClient;
+        public event MethodSetValue SetValueDrink;
+        public delegate void MethodVisibleHandler(bool visible);
+        public event MethodVisibleHandler SetVisibleButtonsMoney;
+        public event MethodVisibleHandler SetVisibilityButtonBuy;
+        public event MethodVisibleHandler SetVisibleButtonsDrink;
 
         //Тег Выбранного напитка
         public int? selectedDrinkTag;

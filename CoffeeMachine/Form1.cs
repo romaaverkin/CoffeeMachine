@@ -137,9 +137,6 @@ namespace CoffeeMachine
         //Щелчок по кнопке купить
         private void BuyButton_Click(object sender, EventArgs e)
         {
-            vendingMachine.selectedDrinkTag = null;
-            vendingMachine.PriceSelectedDrink = 0;
-            vendingMachine.AmountPaid = 0;
         }
     }
 }
