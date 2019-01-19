@@ -29,9 +29,13 @@ namespace CoffeeMachine
         //Кофе куплен
         public bool CoffeBuy = false;
 
-        public List<Coin> moneyForChange = new List<Coin>(); //монеты для сдачи
+        //монеты для сдачи
+        public List<Coin> moneyForChange = new List<Coin>();
 
-        //всего денег
+        //монеты внесенные клиентом
+        public List<Coin> moneyInvestedClient = new List<Coin>();
+
+        //всего денег в машине
         public int totalSum = 0;
 
         //Коллекция видов кофе
@@ -47,11 +51,17 @@ namespace CoffeeMachine
         //Коллекция видов монет
         public List<Coin> coinsInVendingMashine = new List<Coin>
         {
-            new Coin(2, 10),
-            new Coin(10, 10),
-            new Coin(5, 10),
-            new Coin(25, 2),
-            new Coin(1, 15)
+            new Coin(2, 1),
+            new Coin(10, 0),
+            new Coin(5, 1),
+            new Coin(25, 1),
+            new Coin(1, 1)
+
+            //new Coin(2, 10),
+            //new Coin(10, 10),
+            //new Coin(5, 10),
+            //new Coin(25, 10),
+            //new Coin(1, 10)
         };
 
         //Конструктор
@@ -66,10 +76,18 @@ namespace CoffeeMachine
                 moneyForChange.Add(new Coin(coinsInVendingMashine[i].Rating, 0));
             }
 
+            //коллекцию для внесенных монет заполняем нолями
+            for (int i = 0; i < coinsInVendingMashine.Count; i++)
+            {
+                moneyInvestedClient.Add(new Coin(coinsInVendingMashine[i].Rating, 0));
+            }
+
+            //сумма денег в автомате
             for (int i = 0; i < coinsInVendingMashine.Count; i++)
             {
                 totalSum += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
             }
+
         }
 
         //Клик по кнопек выбора напитков
@@ -112,6 +130,7 @@ namespace CoffeeMachine
             }
 
             coinsInVendingMashine[tag].Quantity++;
+            moneyInvestedClient[tag].Quantity++;
             totalSum += coinsInVendingMashine[tag].Rating;
         }
 
@@ -134,6 +153,7 @@ namespace CoffeeMachine
         public void MoneyForChange()
         {
             int remainingChange = AmountPaid - PriceSelectedDrink;
+
             string clientChange = "Ваша сдача\n";
 
             for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
@@ -149,6 +169,7 @@ namespace CoffeeMachine
                     {
                         coinsInVendingMashine[i].Quantity--;
                         moneyForChange[i].Quantity++;
+                        remainingChange -= coinsInVendingMashine[i].Rating;
                         break;
                     }
                     else
@@ -172,13 +193,43 @@ namespace CoffeeMachine
 
             }
 
-            //Формируем строку для сдачи
-            for (int j = 0; j < moneyForChange.Count; j++)
+            //В автомате не хватило денег для сдачи
+            if (remainingChange != 0)
             {
-                clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
-            }
+                clientChange = "Извините, нет монет для сдачи.\nЗаберите внесенные деньги.\n";
+                ChangeInMachine?.Invoke(clientChange);
 
-            totalSum -= AmountPaid - PriceSelectedDrink;
+                //возвращаем монеты из коллекции монеты для сдачи в машину
+                for (int n = 0; n < moneyForChange.Count; n++)
+                {
+                    coinsInVendingMashine[n].Quantity += moneyForChange[n].Quantity;
+                }
+
+                for (int k = 0; k < moneyInvestedClient.Count; k++)
+                {
+                    coinsInVendingMashine[k].Quantity -= moneyInvestedClient[k].Quantity;
+                    clientChange += $"{moneyInvestedClient[k].Rating.ToString()} руб. в количестве {moneyInvestedClient[k].Quantity.ToString()} штук\n";
+                }
+
+                int totalSumTemp = 0;
+
+                for (int b = 0; b < coinsInVendingMashine.Count; b++)
+                {
+                    totalSumTemp += coinsInVendingMashine[b].Rating * coinsInVendingMashine[b].Quantity;
+                }
+
+                totalSum = totalSumTemp;
+            }
+            else
+            {
+                //Формируем строку для сдачи
+                for (int j = 0; j < moneyForChange.Count; j++)
+                {
+                    clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
+                }
+                totalSum -= AmountPaid - PriceSelectedDrink;
+            }
+            
             ChangeInMachine?.Invoke(clientChange);
         }
 
@@ -199,18 +250,5 @@ namespace CoffeeMachine
             CoffeBuy = true;
             SetVisibleButtonsDrink?.Invoke(CoffeBuy);
         }
-
-        ////Общая сумма денег в автомате
-        //public void TotalSumInMachine()
-        //{
-        //    int totalSumTemp = 0;
-
-        //    for (int i = 0; i < coinsInVendingMashine.Count; i++)
-        //    {
-        //        totalSumTemp += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
-        //    }
-
-        //    totalSum = totalSumTemp;
-        //}
     }
 }
