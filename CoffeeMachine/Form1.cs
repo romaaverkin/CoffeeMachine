@@ -72,7 +72,7 @@ namespace CoffeeMachine
             vendingMachine.ClickButtonDrink(buttonTag);
         }
 
-        //Щелсок по кнопке внесения денег
+        //Щелчок по кнопке внесения денег
         private void CoinsInVendingMashine(object sender, EventArgs e)
         {
             var button = (Button)sender;
@@ -81,13 +81,21 @@ namespace CoffeeMachine
             vendingMachine.ClickButonMoney(buttonTag);
             vendingMachine.CoinsInMachineValue();
 
-            if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
+            if (vendingMachine.PriceSelectedDrink <= vendingMachine.AmountPaid)
             {
                 vendingMachine.MoneyForChange();
                 vendingMachine.CoinsInMachineValue();
 
                 thankLabel.Visible = true;
-                thankLabel.Text = "Спасибо за покупку!";
+
+                if (vendingMachine.EnoughChange)
+                {
+                    thankLabel.Text = "Спасибо за покупку!";
+                }
+                else
+                {
+                    thankLabel.Text = "Приносим свои извенения";
+                }
             }
         }
 
@@ -149,6 +157,8 @@ namespace CoffeeMachine
             paymentLabel.Text = "Вы внесли 0 руб.";
             selectCoffeeButton.Visible = false;
             vendingMachine.AgainSelectCoffe();
+            vendingMachine.ClearMoneyForChange();
+            vendingMachine.ClearMoneyInvestedClient();
         }
 
         //Какие монеты есть для сдачи
