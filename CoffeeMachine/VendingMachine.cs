@@ -31,6 +31,9 @@ namespace CoffeeMachine
 
         public List<Coin> moneyForChange = new List<Coin>(); //монеты для сдачи
 
+        //всего денег
+        public int totalSum = 0;
+
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
         {
@@ -57,10 +60,15 @@ namespace CoffeeMachine
             myDrinks.Sort();
             coinsInVendingMashine.Sort();
 
-            //заполняем коллекцию для сдачи
+            //заполняем коллекцию для сдачи 
             for (int i = 0; i < coinsInVendingMashine.Count; i++)
             {
                 moneyForChange.Add(new Coin(coinsInVendingMashine[i].Rating, 0));
+            }
+
+            for (int i = 0; i < coinsInVendingMashine.Count; i++)
+            {
+                totalSum += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
             }
         }
 
@@ -104,17 +112,20 @@ namespace CoffeeMachine
             }
 
             coinsInVendingMashine[tag].Quantity++;
+            totalSum += coinsInVendingMashine[tag].Rating;
         }
 
         //какие монеты в машине
         public void CoinsInMachineValue()
         {
-            string CoinsInTheMachine = "Сейчас есть\n";
+            string CoinsInTheMachine = "В автомате есть\n";
 
             for (int i = 0; i < coinsInVendingMashine.Count; i++)
             {
                 CoinsInTheMachine += $"{coinsInVendingMashine[i].Rating} руб. в количестве {coinsInVendingMashine[i].Quantity} штук\n";
             }
+
+            CoinsInTheMachine += $"Общая сумма {totalSum} руб.";
 
             CoinsInMachine?.Invoke(CoinsInTheMachine);
         }
@@ -167,6 +178,7 @@ namespace CoffeeMachine
                 clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
             }
 
+            totalSum -= AmountPaid - PriceSelectedDrink;
             ChangeInMachine?.Invoke(clientChange);
         }
 
@@ -187,5 +199,18 @@ namespace CoffeeMachine
             CoffeBuy = true;
             SetVisibleButtonsDrink?.Invoke(CoffeBuy);
         }
+
+        ////Общая сумма денег в автомате
+        //public void TotalSumInMachine()
+        //{
+        //    int totalSumTemp = 0;
+
+        //    for (int i = 0; i < coinsInVendingMashine.Count; i++)
+        //    {
+        //        totalSumTemp += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
+        //    }
+
+        //    totalSum = totalSumTemp;
+        //}
     }
 }
