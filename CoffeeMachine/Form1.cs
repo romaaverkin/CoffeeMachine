@@ -90,11 +90,12 @@ namespace CoffeeMachine
             if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
             {
                 paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.\n" +
-                    $"Ваша сдача {vendingMachine.AmountPaid - vendingMachine.PriceSelectedDrink}";
+                    $"Ваша сдача {vendingMachine.AmountPaid - vendingMachine.PriceSelectedDrink} руб.";
             }
             else
             {
-                paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.";
+                paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.\n" +
+                    $"Осталось {vendingMachine.PriceSelectedDrink - vendingMachine.AmountPaid} руб.";
             }
         }
 
