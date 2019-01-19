@@ -65,12 +65,12 @@ namespace CoffeeMachine
         public void ClickButtonDrink(int tag)
         {
             Drink drink = myDrinks[tag];
-            selectedDrink = $"Вы выбрали\n{drink.Name} - {drink.Price} руб.";
+            selectedDrink = $"{drink.Name} - {drink.Price} руб.";
             PriceSelectedDrink = drink.Price;
 
-            SetValueDrink?.Invoke();
-            SetVisibleButtonsDrink?.Invoke();
-            SetVisibleButtonsMoney?.Invoke();
+            SetValueDrinkGo();
+            SetVisibleButtonsDrinkGo();
+            SetVisibleButtonsMoneyGo();
         }
 
         //Целчок по кнопке внести монету
@@ -79,13 +79,38 @@ namespace CoffeeMachine
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
 
-            SetValueInvestedClient?.Invoke();
+            SetValueInvestedClientGo();
 
             if (PriceSelectedDrink < AmountPaid)
             {
-                SetVisibleButtonsMoney?.Invoke();
-                SetVisibilityButtonBuy?.Invoke();
+                SetVisibleButtonsMoneyGo();
+                SetVisibilityButtonBuyGo();
             }
+        }
+
+        public void SetValueDrinkGo()
+        {
+            SetValueDrink?.Invoke();
+        }
+
+        public void SetVisibleButtonsDrinkGo()
+        {
+            SetVisibleButtonsDrink?.Invoke();
+        }
+
+        public void SetVisibleButtonsMoneyGo()
+        {
+            SetVisibleButtonsMoney?.Invoke();
+        }
+
+        public void SetValueInvestedClientGo()
+        {
+            SetValueInvestedClient?.Invoke();
+        }
+
+        public void SetVisibilityButtonBuyGo()
+        {
+            SetVisibilityButtonBuy?.Invoke();
         }
     }
 }

@@ -86,6 +86,7 @@
             this.buyButton.TabIndex = 4;
             this.buyButton.Text = "Купить";
             this.buyButton.UseVisualStyleBackColor = true;
+            this.buyButton.Click += new System.EventHandler(this.BuyButton_Click);
             // 
             // currentBalanceVendingMachineLabel
             // 
