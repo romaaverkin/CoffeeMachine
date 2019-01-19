@@ -86,11 +86,13 @@ namespace CoffeeMachine
 
             SetValueInvestedClient?.Invoke(message);
 
-            if (PriceSelectedDrink < AmountPaid)
+            if (PriceSelectedDrink <= AmountPaid)
             {
                 SetVisibleButtonsMoney?.Invoke(false);
                 SetVisibilityButtonBuy?.Invoke(true);
             }
+
+            coinsInVendingMashine[tag].Quantity++;
         }
     }
 }
