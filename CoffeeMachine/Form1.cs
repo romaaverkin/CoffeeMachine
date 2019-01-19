@@ -84,6 +84,7 @@ namespace CoffeeMachine
             if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
             {
                 vendingMachine.MoneyForChange();
+                vendingMachine.CoinsInMachineValue();
             }
         }
 

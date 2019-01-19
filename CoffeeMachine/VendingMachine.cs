@@ -160,10 +160,12 @@ namespace CoffeeMachine
 
             }
 
+            //Формируем строку для сдачи
             for (int j = 0; j < moneyForChange.Count; j++)
             {
                 clientChange += $"{moneyForChange[j].Quantity.ToString()} штук по {moneyForChange[j].Rating.ToString()}\n";
             }
+
 
             ChangeInMachine?.Invoke(clientChange);
         }
