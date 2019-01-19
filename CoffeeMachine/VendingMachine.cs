@@ -10,6 +10,7 @@ namespace CoffeeMachine
         public delegate void MethodSetValue(string value);
         public event MethodSetValue SetValueInvestedClient;
         public event MethodSetValue SetValueDrink;
+        public event MethodSetValue CoinsInMachine;
         public delegate void MethodVisibleHandler(bool visible);
         public event MethodVisibleHandler SetVisibleButtonsMoney;
         public event MethodVisibleHandler SetVisibilityButtonBuy;
@@ -93,6 +94,21 @@ namespace CoffeeMachine
             }
 
             coinsInVendingMashine[tag].Quantity++;
+
+            CoinsInMachineValue();
+        }
+
+        //какие монеты в машине
+        public void CoinsInMachineValue()
+        {
+            string CoinsInTheMachine = "Сейчас есть\n";
+
+            for (int i = 0; i < coinsInVendingMashine.Count; i++)
+            {
+                CoinsInTheMachine += $"{coinsInVendingMashine[i].Rating} руб. в количестве {coinsInVendingMashine[i].Quantity} штук\n";
+            }
+
+            CoinsInMachine?.Invoke(CoinsInTheMachine);
         }
     }
 }

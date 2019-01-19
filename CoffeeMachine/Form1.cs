@@ -28,6 +28,7 @@ namespace CoffeeMachine
             vendingMachine.SetVisibleButtonsMoney += SetVisibilityButtonsMoney;
             vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
             vendingMachine.SetVisibilityButtonBuy += SetVisibleBuyButton;
+            vendingMachine.CoinsInMachine += SetCoinsInMachine;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -58,7 +59,7 @@ namespace CoffeeMachine
                 CoinsFlowLayoutPanel.Controls.Add(moneyButton);
             };
 
-            CoinsInMachine();
+            vendingMachine.CoinsInMachineValue();
         }
 
         //Щелчок по кнопке выбора напитков
@@ -116,16 +117,9 @@ namespace CoffeeMachine
         }
 
         //Узнать сколько монет есть в машине
-        public void CoinsInMachine()
+        public void SetCoinsInMachine(string message)
         {
-            string CoinsInTheMachine = "Сейчас есть\n";
-
-            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
-            {
-                CoinsInTheMachine += $"{vendingMachine.coinsInVendingMashine[i].Rating} руб. в количестве {vendingMachine.coinsInVendingMashine[i].Quantity} штук\n";
-            }
-
-            currentBalanceVendingMachineLabel.Text = CoinsInTheMachine;
+            currentBalanceVendingMachineLabel.Text = message;
         }
 
         //Видимость кнопки купить
