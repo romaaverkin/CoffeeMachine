@@ -80,9 +80,9 @@ namespace CoffeeMachine
         }
 
         //Устанавливае значение поля выбранного напитка
-        public void SetValueSelectedDrinkLabel()
+        public void SetValueSelectedDrinkLabel(string name)
         {
-            selectedDrinkLabel.Text = $"Вы выбрали\n{vendingMachine.selectedDrink}";
+            selectedDrinkLabel.Text = name;
         }
 
         //Устанавливает значение поля внесенных клиентом денег и сдачи
@@ -157,11 +157,7 @@ namespace CoffeeMachine
         //Щелчок по кнопке купить
         private void BuyButton_Click(object sender, EventArgs e)
         {
-            var button = (Button)sender;
-            int buttonTag = Convert.ToInt32(button.Tag);
-
-            MessageBox.Show($"Вы купили\n{vendingMachine.selectedDrink}");
-            vendingMachine.CoffeBuy = true;
+            
         }
     }
 }

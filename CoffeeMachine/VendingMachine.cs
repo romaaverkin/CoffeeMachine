@@ -7,7 +7,7 @@ namespace CoffeeMachine
 {
     class VendingMachine
     {
-        public delegate void MethodSetValueDrink();
+        public delegate void MethodSetValueDrink(string drink);
         public event MethodSetValueDrink SetValueDrink;
 
         public delegate void MethodVisibleButtonsDrink();
@@ -22,8 +22,8 @@ namespace CoffeeMachine
         public delegate void MethodSetVisibilityButtonBuy();
         public event MethodSetVisibilityButtonBuy SetVisibilityButtonBuy;
 
-        //Выбранный напиток
-        public string selectedDrink = "Выберите напиток";
+        //Тег Выбранного напитка
+        public int selectedDrinkTag;
 
         //цена выбранного клиентом напитка
         public int PriceSelectedDrink = 0;
@@ -65,10 +65,10 @@ namespace CoffeeMachine
         public void ClickButtonDrink(int tag)
         {
             Drink drink = myDrinks[tag];
-            selectedDrink = $"{drink.Name} - {drink.Price} руб.";
+            selectedDrinkTag = tag;
             PriceSelectedDrink = drink.Price;
 
-            SetValueDrinkGo();
+            SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
             SetVisibleButtonsDrinkGo();
             SetVisibleButtonsMoneyGo();
         }
@@ -86,11 +86,6 @@ namespace CoffeeMachine
                 SetVisibleButtonsMoneyGo();
                 SetVisibilityButtonBuyGo();
             }
-        }
-
-        public void SetValueDrinkGo()
-        {
-            SetValueDrink?.Invoke();
         }
 
         public void SetVisibleButtonsDrinkGo()
@@ -112,5 +107,7 @@ namespace CoffeeMachine
         {
             SetVisibilityButtonBuy?.Invoke();
         }
+
+        //Щелчок по кнопке купить
     }
 }
