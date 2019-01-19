@@ -27,6 +27,7 @@ namespace CoffeeMachine
             vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtoncDrink;
             vendingMachine.SetVisibleButtonsMoney += SetVisibilityButtonsMoney;
             vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
+            vendingMachine.SetVisibilityButtonBuy += SetVisibleBuyButton;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -142,6 +143,15 @@ namespace CoffeeMachine
             }
 
             currentBalanceVendingMachineLabel.Text = CoinsInTheMachine;
+        }
+
+        //Видимость кнопки купить
+        public void SetVisibleBuyButton()
+        {
+            if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
+            {
+                buyButton.Enabled = true;
+            }
         }
     }
 }

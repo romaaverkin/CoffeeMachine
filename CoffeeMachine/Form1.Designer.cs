@@ -32,7 +32,7 @@
             this.paymentLabel = new System.Windows.Forms.Label();
             this.DrinksFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.CoinsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.nameButton = new System.Windows.Forms.Button();
+            this.buyButton = new System.Windows.Forms.Button();
             this.currentBalanceVendingMachineLabel = new System.Windows.Forms.Label();
             this.yourСhangelabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -77,15 +77,15 @@
             this.CoinsFlowLayoutPanel.Size = new System.Drawing.Size(180, 300);
             this.CoinsFlowLayoutPanel.TabIndex = 3;
             // 
-            // nameButton
+            // buyButton
             // 
-            this.nameButton.Enabled = false;
-            this.nameButton.Location = new System.Drawing.Point(172, 369);
-            this.nameButton.Name = "nameButton";
-            this.nameButton.Size = new System.Drawing.Size(75, 23);
-            this.nameButton.TabIndex = 4;
-            this.nameButton.Text = "Купить";
-            this.nameButton.UseVisualStyleBackColor = true;
+            this.buyButton.Enabled = false;
+            this.buyButton.Location = new System.Drawing.Point(172, 369);
+            this.buyButton.Name = "buyButton";
+            this.buyButton.Size = new System.Drawing.Size(75, 23);
+            this.buyButton.TabIndex = 4;
+            this.buyButton.Text = "Купить";
+            this.buyButton.UseVisualStyleBackColor = true;
             // 
             // currentBalanceVendingMachineLabel
             // 
@@ -110,7 +110,7 @@
             this.ClientSize = new System.Drawing.Size(421, 646);
             this.Controls.Add(this.yourСhangelabel);
             this.Controls.Add(this.currentBalanceVendingMachineLabel);
-            this.Controls.Add(this.nameButton);
+            this.Controls.Add(this.buyButton);
             this.Controls.Add(this.CoinsFlowLayoutPanel);
             this.Controls.Add(this.DrinksFlowLayoutPanel);
             this.Controls.Add(this.paymentLabel);
@@ -129,7 +129,7 @@
         private System.Windows.Forms.Label paymentLabel;
         private System.Windows.Forms.FlowLayoutPanel DrinksFlowLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel CoinsFlowLayoutPanel;
-        private System.Windows.Forms.Button nameButton;
+        private System.Windows.Forms.Button buyButton;
         private System.Windows.Forms.Label currentBalanceVendingMachineLabel;
         private System.Windows.Forms.Label yourСhangelabel;
     }
