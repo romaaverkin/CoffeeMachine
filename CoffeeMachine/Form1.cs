@@ -25,7 +25,8 @@ namespace CoffeeMachine
             //Подписались на событие клиет кликнул по кнопке выбора напитков
             vendingMachine.SetValueDrink += SetValueSelectedDrinkLabel;
             vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtoncDrink;
-            vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtonsMoney;
+            vendingMachine.SetVisibleButtonsMoney += SetVisibilityButtonsMoney;
+            vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -59,6 +60,7 @@ namespace CoffeeMachine
             CoinsInMachine();
         }
 
+        //Щелчок по кнопке выбора напитков
         private void DrinkButtonOnClick(object sender, EventArgs e)
         {
             var button = (Button)sender;
@@ -67,15 +69,33 @@ namespace CoffeeMachine
             vendingMachine.ClickButtonDrink(buttonTag);
         }
 
+        //Щелсок по кнопке внесения денег
         private void CoinsInVendingMashine(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var button = (Button)sender;
+            int buttonTag = Convert.ToInt32(button.Tag);
+
+            vendingMachine.ClickButonMoney(buttonTag);
         }
 
         //Устанавливае значение поля выбранного напитка
         public void SetValueSelectedDrinkLabel()
         {
             selectedDrinkLabel.Text = vendingMachine.selectedDrink;
+        }
+
+        //Устанавливает значение поля внесенных клиентом денег и сдачи
+        public void SetValueInvesteClientMoney()
+        {
+            if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
+            {
+                paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.\n" +
+                    $"Ваша сдача {vendingMachine.AmountPaid - vendingMachine.PriceSelectedDrink}";
+            }
+            else
+            {
+                paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.";
+            }
         }
 
         //Видимы ли кнопки выбора напитков
@@ -94,9 +114,19 @@ namespace CoffeeMachine
         {
             bool CoffeBuy = vendingMachine.CoffeBuy;
 
-            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
+            if (!CoffeBuy && vendingMachine.PriceSelectedDrink > vendingMachine.AmountPaid)
             {
-                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = !CoffeBuy;
+                for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
+                {
+                    CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = !CoffeBuy;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
+                {
+                    CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = CoffeBuy;
+                }
             }
         }
 

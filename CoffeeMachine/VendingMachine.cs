@@ -13,6 +13,12 @@ namespace CoffeeMachine
         public delegate void MethodVisibleButtonsDrink();
         public event MethodVisibleButtonsDrink SetVisibleButtonsDrink;
 
+        public delegate void MethodVisibleButtonsMoney();
+        public event MethodVisibleButtonsMoney SetVisibleButtonsMoney;
+
+        public delegate void MethodSetValueInvestedClient();
+        public event MethodSetValueInvestedClient SetValueInvestedClient;
+
         //Выбранный напиток
         public string selectedDrink = "Выберите напиток";
 
@@ -61,6 +67,20 @@ namespace CoffeeMachine
 
             SetValueDrink?.Invoke();
             SetVisibleButtonsDrink?.Invoke();
+            SetVisibleButtonsMoney?.Invoke();
+        }
+
+        public void ClickButonMoney(int tag)
+        {
+            Coin coin = coinsInVendingMashine[tag];
+            AmountPaid += coin.Rating;
+
+            SetValueInvestedClient?.Invoke();
+
+            if (PriceSelectedDrink < AmountPaid)
+            {
+                SetVisibleButtonsMoney?.Invoke();
+            }
         }
     }
 }
