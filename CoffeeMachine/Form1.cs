@@ -85,6 +85,9 @@ namespace CoffeeMachine
             {
                 vendingMachine.MoneyForChange();
                 vendingMachine.CoinsInMachineValue();
+
+                thankLabel.Visible = true;
+                thankLabel.Text = "Спасибо за покупку!";
             }
         }
 
@@ -133,12 +136,13 @@ namespace CoffeeMachine
         //Видимость кнопки купить
         public void SetVisibleBuyButton(bool visible)
         {
-            buyButton.Enabled = visible;
+            selectCoffeeButton.Visible = visible;
         }
 
         //Щелчок по кнопке купить
-        private void BuyButton_Click(object sender, EventArgs e)
+        private void SelectCoffeButton_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("RR");
         }
 
         //Какие монеты есть для сдачи

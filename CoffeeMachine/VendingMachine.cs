@@ -166,7 +166,6 @@ namespace CoffeeMachine
                 clientChange += $"{moneyForChange[j].Quantity.ToString()} штук по {moneyForChange[j].Rating.ToString()}\n";
             }
 
-
             ChangeInMachine?.Invoke(clientChange);
         }
     }

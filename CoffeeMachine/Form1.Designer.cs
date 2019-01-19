@@ -32,9 +32,10 @@
             this.paymentLabel = new System.Windows.Forms.Label();
             this.DrinksFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.CoinsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.buyButton = new System.Windows.Forms.Button();
+            this.selectCoffeeButton = new System.Windows.Forms.Button();
             this.currentBalanceVendingMachineLabel = new System.Windows.Forms.Label();
             this.yourСhangelabel = new System.Windows.Forms.Label();
+            this.thankLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // selectedDrinkLabel
@@ -77,16 +78,16 @@
             this.CoinsFlowLayoutPanel.Size = new System.Drawing.Size(180, 300);
             this.CoinsFlowLayoutPanel.TabIndex = 3;
             // 
-            // buyButton
+            // selectCoffeeButton
             // 
-            this.buyButton.Enabled = false;
-            this.buyButton.Location = new System.Drawing.Point(172, 369);
-            this.buyButton.Name = "buyButton";
-            this.buyButton.Size = new System.Drawing.Size(75, 23);
-            this.buyButton.TabIndex = 4;
-            this.buyButton.Text = "Купить";
-            this.buyButton.UseVisualStyleBackColor = true;
-            this.buyButton.Click += new System.EventHandler(this.BuyButton_Click);
+            this.selectCoffeeButton.Location = new System.Drawing.Point(145, 366);
+            this.selectCoffeeButton.Name = "selectCoffeeButton";
+            this.selectCoffeeButton.Size = new System.Drawing.Size(124, 23);
+            this.selectCoffeeButton.TabIndex = 4;
+            this.selectCoffeeButton.Text = "Выбрать кофе";
+            this.selectCoffeeButton.UseVisualStyleBackColor = true;
+            this.selectCoffeeButton.Visible = false;
+            this.selectCoffeeButton.Click += new System.EventHandler(this.SelectCoffeButton_Click);
             // 
             // currentBalanceVendingMachineLabel
             // 
@@ -104,14 +105,24 @@
             this.yourСhangelabel.Size = new System.Drawing.Size(0, 13);
             this.yourСhangelabel.TabIndex = 6;
             // 
+            // thankLabel
+            // 
+            this.thankLabel.AutoSize = true;
+            this.thankLabel.Location = new System.Drawing.Point(142, 409);
+            this.thankLabel.Name = "thankLabel";
+            this.thankLabel.Size = new System.Drawing.Size(0, 13);
+            this.thankLabel.TabIndex = 7;
+            this.thankLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(421, 646);
+            this.Controls.Add(this.thankLabel);
             this.Controls.Add(this.yourСhangelabel);
             this.Controls.Add(this.currentBalanceVendingMachineLabel);
-            this.Controls.Add(this.buyButton);
+            this.Controls.Add(this.selectCoffeeButton);
             this.Controls.Add(this.CoinsFlowLayoutPanel);
             this.Controls.Add(this.DrinksFlowLayoutPanel);
             this.Controls.Add(this.paymentLabel);
@@ -130,9 +141,10 @@
         private System.Windows.Forms.Label paymentLabel;
         private System.Windows.Forms.FlowLayoutPanel DrinksFlowLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel CoinsFlowLayoutPanel;
-        private System.Windows.Forms.Button buyButton;
+        private System.Windows.Forms.Button selectCoffeeButton;
         private System.Windows.Forms.Label currentBalanceVendingMachineLabel;
         private System.Windows.Forms.Label yourСhangelabel;
+        private System.Windows.Forms.Label thankLabel;
     }
 }
 
