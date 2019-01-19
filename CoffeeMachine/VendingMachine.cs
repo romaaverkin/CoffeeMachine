@@ -72,8 +72,9 @@ namespace CoffeeMachine
             PriceSelectedDrink = drink.Price;
 
             SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
+            CoffeBuy = false;
             SetVisibleButtonsDrink?.Invoke(CoffeBuy);
-            SetVisibleButtonsMoney?.Invoke(true);
+            SetVisibleButtonsMoney?.Invoke(!CoffeBuy);
         }
 
         //Целчок по кнопке внести монету
@@ -98,7 +99,7 @@ namespace CoffeeMachine
 
             if (PriceSelectedDrink <= AmountPaid)
             {
-                SetVisibleButtonsMoney?.Invoke(false);
+                //SetVisibleButtonsMoney?.Invoke(false);
                 SetVisibilityButtonBuy?.Invoke(true);
             }
 
@@ -163,10 +164,28 @@ namespace CoffeeMachine
             //Формируем строку для сдачи
             for (int j = 0; j < moneyForChange.Count; j++)
             {
-                clientChange += $"{moneyForChange[j].Quantity.ToString()} штук по {moneyForChange[j].Rating.ToString()}\n";
+                clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
             }
 
             ChangeInMachine?.Invoke(clientChange);
+        }
+
+        //Обнуляем коллекцию для сдачи
+        public void ClearMoneyForChange()
+        {
+            for (int i = 0; i < moneyForChange.Count; i++)
+            {
+                moneyForChange[i].Quantity = 0;
+            }
+        }
+
+        //снова выбрать кофе
+        public void AgainSelectCoffe()
+        {
+            PriceSelectedDrink = 0;
+            AmountPaid = 0;
+            CoffeBuy = true;
+            SetVisibleButtonsDrink?.Invoke(CoffeBuy);
         }
     }
 }

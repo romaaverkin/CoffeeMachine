@@ -142,7 +142,13 @@ namespace CoffeeMachine
         //Щелчок по кнопке купить
         private void SelectCoffeButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("RR");
+            vendingMachine.ClearMoneyForChange();
+            yourСhangelabel.Text = "";
+            thankLabel.Visible = false;
+            selectedDrinkLabel.Text = "Выберите напиток";
+            paymentLabel.Text = "Вы внесли 0 руб.";
+            selectCoffeeButton.Visible = false;
+            vendingMachine.AgainSelectCoffe();
         }
 
         //Какие монеты есть для сдачи
