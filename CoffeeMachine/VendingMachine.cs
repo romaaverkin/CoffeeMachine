@@ -11,6 +11,7 @@ namespace CoffeeMachine
         public event MethodSetValue SetValueInvestedClient;
         public event MethodSetValue SetValueDrink;
         public event MethodSetValue CoinsInMachine;
+        public event MethodSetValue ChangeInMachine;
         public delegate void MethodVisibleHandler(bool visible);
         public event MethodVisibleHandler SetVisibleButtonsMoney;
         public event MethodVisibleHandler SetVisibilityButtonBuy;
@@ -27,6 +28,8 @@ namespace CoffeeMachine
 
         //Кофе куплен
         public bool CoffeBuy = false;
+
+        public List<Coin> moneyForChange = new List<Coin>(); //монеты для сдачи
 
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
@@ -53,6 +56,12 @@ namespace CoffeeMachine
         {
             myDrinks.Sort();
             coinsInVendingMashine.Sort();
+
+            //заполняем коллекцию для сдачи
+            for (int i = 0; i < coinsInVendingMashine.Count; i++)
+            {
+                moneyForChange.Add(new Coin(coinsInVendingMashine[i].Rating, 0));
+            }
         }
 
         //Клик по кнопек выбора напитков
@@ -94,8 +103,6 @@ namespace CoffeeMachine
             }
 
             coinsInVendingMashine[tag].Quantity++;
-
-            CoinsInMachineValue();
         }
 
         //какие монеты в машине
@@ -109,6 +116,56 @@ namespace CoffeeMachine
             }
 
             CoinsInMachine?.Invoke(CoinsInTheMachine);
+        }
+
+        //Сдача
+        public void MoneyForChange()
+        {
+            int remainingChange = AmountPaid - PriceSelectedDrink;
+            string clientChange = "Ваша сдача\n";
+
+            for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
+            {
+
+                if (remainingChange < coinsInVendingMashine[i].Rating)
+                {
+                    continue;
+                }
+                else if (remainingChange == coinsInVendingMashine[i].Rating)
+                {
+                    if (coinsInVendingMashine[i].Quantity != 0)
+                    {
+                        coinsInVendingMashine[i].Quantity--;
+                        moneyForChange[i].Quantity++;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else if (coinsInVendingMashine[i].Quantity != 0)
+                {
+                    while (coinsInVendingMashine[i].Quantity != 0 && remainingChange >= coinsInVendingMashine[i].Rating)
+                    {
+                        coinsInVendingMashine[i].Quantity--;
+                        moneyForChange[i].Quantity++;
+                        remainingChange -= coinsInVendingMashine[i].Rating;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
+            }
+
+            for (int j = 0; j < moneyForChange.Count; j++)
+            {
+                clientChange += $"{moneyForChange[j].Quantity.ToString()} штук по {moneyForChange[j].Rating.ToString()}\n";
+            }
+
+            ChangeInMachine?.Invoke(clientChange);
         }
     }
 }
