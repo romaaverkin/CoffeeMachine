@@ -13,7 +13,7 @@ namespace CoffeeMachine
     public partial class Form1 : Form
     {
         VendingMachine vendingMachine;
-        
+
         public Form1()
         {
             InitializeComponent();
@@ -86,25 +86,14 @@ namespace CoffeeMachine
         }
 
         //Устанавливает значение поля внесенных клиентом денег и сдачи
-        public void SetValueInvesteClientMoney()
+        public void SetValueInvesteClientMoney(string message)
         {
-            if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
-            {
-                paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.\n" +
-                    $"Ваша сдача {vendingMachine.AmountPaid - vendingMachine.PriceSelectedDrink} руб.";
-            }
-            else
-            {
-                paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.\n" +
-                    $"Осталось {vendingMachine.PriceSelectedDrink - vendingMachine.AmountPaid} руб.";
-            }
+            paymentLabel.Text = message;
         }
 
         //Видимы ли кнопки выбора напитков
-        public void SetVisibilityButtoncDrink()
+        public void SetVisibilityButtoncDrink(bool CoffeBuy)
         {
-            bool CoffeBuy = vendingMachine.CoffeBuy;
-
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
                 DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = CoffeBuy;
@@ -112,24 +101,18 @@ namespace CoffeeMachine
         }
 
         //Видимы ли кнопки внесения денег
-        public void SetVisibilityButtonsMoney()
+        public void SetVisibilityButtonsMoney(bool visible)
         {
-            bool CoffeBuy = vendingMachine.CoffeBuy;
+            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
+            {
+                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = visible;
+            }
 
-            if (!CoffeBuy && vendingMachine.PriceSelectedDrink > vendingMachine.AmountPaid)
+            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
             {
-                for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
-                {
-                    CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = !CoffeBuy;
-                }
+                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = visible;
             }
-            else
-            {
-                for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
-                {
-                    CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = CoffeBuy;
-                }
-            }
+
         }
 
         //Узнать сколько монет есть в машине
@@ -146,18 +129,17 @@ namespace CoffeeMachine
         }
 
         //Видимость кнопки купить
-        public void SetVisibleBuyButton()
+        public void SetVisibleBuyButton(bool visible)
         {
-            if (vendingMachine.PriceSelectedDrink < vendingMachine.AmountPaid)
-            {
-                buyButton.Enabled = true;
-            }
+            buyButton.Enabled = visible;
         }
 
         //Щелчок по кнопке купить
         private void BuyButton_Click(object sender, EventArgs e)
         {
-            
+            vendingMachine.selectedDrinkTag = null;
+            vendingMachine.PriceSelectedDrink = 0;
+            vendingMachine.AmountPaid = 0;
         }
     }
 }

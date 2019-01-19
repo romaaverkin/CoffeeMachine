@@ -10,20 +10,20 @@ namespace CoffeeMachine
         public delegate void MethodSetValueDrink(string drink);
         public event MethodSetValueDrink SetValueDrink;
 
-        public delegate void MethodVisibleButtonsDrink();
+        public delegate void MethodVisibleButtonsDrink(bool visible);
         public event MethodVisibleButtonsDrink SetVisibleButtonsDrink;
 
-        public delegate void MethodVisibleButtonsMoney();
+        public delegate void MethodVisibleButtonsMoney(bool visible);
         public event MethodVisibleButtonsMoney SetVisibleButtonsMoney;
 
-        public delegate void MethodSetValueInvestedClient();
+        public delegate void MethodSetValueInvestedClient(string message);
         public event MethodSetValueInvestedClient SetValueInvestedClient;
 
-        public delegate void MethodSetVisibilityButtonBuy();
+        public delegate void MethodSetVisibilityButtonBuy(bool visible);
         public event MethodSetVisibilityButtonBuy SetVisibilityButtonBuy;
 
         //Тег Выбранного напитка
-        public int selectedDrinkTag;
+        public int? selectedDrinkTag;
 
         //цена выбранного клиентом напитка
         public int PriceSelectedDrink = 0;
@@ -69,8 +69,8 @@ namespace CoffeeMachine
             PriceSelectedDrink = drink.Price;
 
             SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
-            SetVisibleButtonsDrinkGo();
-            SetVisibleButtonsMoneyGo();
+            SetVisibleButtonsDrink?.Invoke(CoffeBuy);
+            SetVisibleButtonsMoney?.Invoke(true);
         }
 
         //Целчок по кнопке внести монету
@@ -78,36 +78,26 @@ namespace CoffeeMachine
         {
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
-
-            SetValueInvestedClientGo();
+            string message;
 
             if (PriceSelectedDrink < AmountPaid)
             {
-                SetVisibleButtonsMoneyGo();
-                SetVisibilityButtonBuyGo();
+                message = $"Вы внесли {AmountPaid.ToString()} руб.\n" +
+                    $"Ваша сдача {AmountPaid - PriceSelectedDrink} руб.";
+            }
+            else
+            {
+                message = $"Вы внесли {AmountPaid.ToString()} руб.\n" +
+                    $"Осталось {PriceSelectedDrink - AmountPaid} руб.";
+            }
+
+            SetValueInvestedClient?.Invoke(message);
+
+            if (PriceSelectedDrink < AmountPaid)
+            {
+                SetVisibleButtonsMoney?.Invoke(false);
+                SetVisibilityButtonBuy?.Invoke(true);
             }
         }
-
-        public void SetVisibleButtonsDrinkGo()
-        {
-            SetVisibleButtonsDrink?.Invoke();
-        }
-
-        public void SetVisibleButtonsMoneyGo()
-        {
-            SetVisibleButtonsMoney?.Invoke();
-        }
-
-        public void SetValueInvestedClientGo()
-        {
-            SetValueInvestedClient?.Invoke();
-        }
-
-        public void SetVisibilityButtonBuyGo()
-        {
-            SetVisibilityButtonBuy?.Invoke();
-        }
-
-        //Щелчок по кнопке купить
     }
 }
