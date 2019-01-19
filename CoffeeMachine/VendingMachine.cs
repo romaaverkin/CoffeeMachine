@@ -99,7 +99,7 @@ namespace CoffeeMachine
 
             if (PriceSelectedDrink <= AmountPaid)
             {
-                //SetVisibleButtonsMoney?.Invoke(false);
+                SetVisibleButtonsMoney?.Invoke(CoffeBuy);
                 SetVisibilityButtonBuy?.Invoke(true);
             }
 
