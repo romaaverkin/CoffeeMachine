@@ -30,6 +30,7 @@ namespace CoffeeMachine
             vendingMachine.SetVisibilityButtonBuy += SetVisibleBuyButton;
             vendingMachine.CoinsInMachine += SetValueCoinsInMachine;
             vendingMachine.ChangeInMachine += SetValueForChange;
+            vendingMachine.VisibleAndSetHundler += VisibleThankLabel;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -147,6 +148,13 @@ namespace CoffeeMachine
         public void SetValueForChange(string message)
         {
             yourСhangelabel.Text = message;
+        }
+
+        //Видимость поля спасибо за покупку
+        public void VisibleThankLabel(bool visible, string message)
+        {
+            thankLabel.Visible = visible;
+            thankLabel.Text = message;
         }
     }
 }

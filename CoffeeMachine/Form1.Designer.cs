@@ -52,9 +52,9 @@
             this.paymentLabel.AutoSize = true;
             this.paymentLabel.Location = new System.Drawing.Point(260, 18);
             this.paymentLabel.Name = "paymentLabel";
-            this.paymentLabel.Size = new System.Drawing.Size(93, 13);
+            this.paymentLabel.Size = new System.Drawing.Size(87, 13);
             this.paymentLabel.TabIndex = 1;
-            this.paymentLabel.Text = "Вы внесли 0 руб.";
+            this.paymentLabel.Text = "Внесите деньги";
             // 
             // DrinksFlowLayoutPanel
             // 

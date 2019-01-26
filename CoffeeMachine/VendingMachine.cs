@@ -16,6 +16,8 @@ namespace CoffeeMachine
         public event MethodVisibleHandler SetVisibleButtonsMoney;
         public event MethodVisibleHandler SetVisibilityButtonBuy;
         public event MethodVisibleHandler SetVisibleButtonsDrink;
+        public delegate void MethodVisibleAndSetHundler(bool visible, string message);
+        public event MethodVisibleAndSetHundler VisibleAndSetHundler;
 
         //Тег Выбранного напитка
         public int? selectedDrinkTag;
@@ -102,27 +104,24 @@ namespace CoffeeMachine
             selectedDrinkTag = tag;
             PriceSelectedDrink = drink.Price;
 
-            if (PriceSelectedDrink > AmountPaid)
+            if (AmountPaid < PriceSelectedDrink) 
             {
                 SetValueDrink?.Invoke($"Недостаточно денег\nдля покупки.");
             }
-            else
+            else if (AmountPaid == PriceSelectedDrink)
             {
+                AmountPaid = 0;
+                SetValueInvestedClient?.Invoke($"Внесите деньги");
                 SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
-                if (AmountPaid == PriceSelectedDrink)
-                {
-
-                }
+                VisibleAndSetHundler?.Invoke(true, "Спасибо за покупку!");
             }
-
-            //CoffeBuy = false;
-            //SetVisibleButtonsDrink?.Invoke(CoffeBuy);
-            //SetVisibleButtonsMoney?.Invoke(!CoffeBuy);
         }
 
         //Целчок по кнопке внести монету
         public void ClickButonMoney(int tag)
         {
+            VisibleAndSetHundler?.Invoke(false, "");
+            SetValueDrink?.Invoke($"Выберите напиток");
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
             string message;
