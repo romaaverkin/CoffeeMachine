@@ -52,8 +52,7 @@ namespace CoffeeMachine
                     Name = "moneyButton" + i,
                     Width = 150,
                     Tag = i,
-                    Text = $"Внести {vendingMachine.coinsInVendingMashine[i].Rating} руб.",
-                    Enabled = false
+                    Text = $"Внести {vendingMachine.coinsInVendingMashine[i].Rating} руб."
                 };
 
                 moneyButton.Click += CoinsInVendingMashine;
@@ -80,23 +79,6 @@ namespace CoffeeMachine
 
             vendingMachine.ClickButonMoney(buttonTag);
             vendingMachine.CoinsInMachineValue();
-
-            if (vendingMachine.PriceSelectedDrink <= vendingMachine.AmountPaid)
-            {
-                vendingMachine.MoneyForChange();
-                vendingMachine.CoinsInMachineValue();
-
-                thankLabel.Visible = true;
-
-                if (vendingMachine.EnoughChange)
-                {
-                    thankLabel.Text = "Спасибо за покупку!";
-                }
-                else
-                {
-                    thankLabel.Text = "Приносим свои извенения";
-                }
-            }
         }
 
         //Устанавливае значение поля выбранного напитка

@@ -41,6 +41,9 @@ namespace CoffeeMachine
         //Хватит ли сдачи
         public bool EnoughChange = true;
 
+        // Цена самого дорого кофе
+        public int PriceMostExpensiveDrink = 0;
+
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
         {
@@ -87,6 +90,9 @@ namespace CoffeeMachine
                 totalSum += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
             }
 
+            //Устанавливаем цену самого дорогого напитка
+            PriceMostExpensiveDrink = myDrinks[myDrinks.Count - 1].Price;
+
         }
 
         //Клик по кнопек выбора напитков
@@ -109,24 +115,13 @@ namespace CoffeeMachine
             AmountPaid += coin.Rating;
             string message;
 
-            if (PriceSelectedDrink < AmountPaid)
-            {
-                message = $"Вы внесли {AmountPaid.ToString()} руб.\n" +
-                    $"Ваша сдача {AmountPaid - PriceSelectedDrink} руб.";
-            }
-            else
-            {
-                message = $"Вы внесли {AmountPaid.ToString()} руб.\n" +
-                    $"Осталось {PriceSelectedDrink - AmountPaid} руб.";
-            }
-
-            SetValueInvestedClient?.Invoke(message);
-
-            if (PriceSelectedDrink <= AmountPaid)
+            if (AmountPaid >= PriceMostExpensiveDrink)
             {
                 SetVisibleButtonsMoney?.Invoke(CoffeBuy);
-                SetVisibilityButtonBuy?.Invoke(true);
             }
+
+            message = $"Вы внесли {AmountPaid.ToString()} руб.\n";
+            SetValueInvestedClient?.Invoke(message);
 
             coinsInVendingMashine[tag].Quantity++;
             moneyInvestedClient[tag].Quantity++;
