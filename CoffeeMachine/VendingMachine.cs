@@ -102,10 +102,19 @@ namespace CoffeeMachine
             selectedDrinkTag = tag;
             PriceSelectedDrink = drink.Price;
 
-            SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
-            CoffeBuy = false;
-            SetVisibleButtonsDrink?.Invoke(CoffeBuy);
-            SetVisibleButtonsMoney?.Invoke(!CoffeBuy);
+            if (PriceSelectedDrink > AmountPaid)
+            {
+                SetValueDrink?.Invoke($"Недостаточно денег\nдля покупки.");
+            }
+            else
+            {
+                SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
+            }
+
+            //SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
+            //CoffeBuy = false;
+            //SetVisibleButtonsDrink?.Invoke(CoffeBuy);
+            //SetVisibleButtonsMoney?.Invoke(!CoffeBuy);
         }
 
         //Целчок по кнопке внести монету
@@ -123,9 +132,9 @@ namespace CoffeeMachine
             message = $"Вы внесли {AmountPaid.ToString()} руб.\n";
             SetValueInvestedClient?.Invoke(message);
 
-            coinsInVendingMashine[tag].Quantity++;
+            coin.Quantity++;
             moneyInvestedClient[tag].Quantity++;
-            totalSum += coinsInVendingMashine[tag].Rating;
+            totalSum += coin.Rating;
         }
 
         //какие монеты в машине
