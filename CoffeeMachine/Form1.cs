@@ -77,7 +77,6 @@ namespace CoffeeMachine
             int buttonTag = Convert.ToInt32(button.Tag);
 
             vendingMachine.ClickButonMoney(buttonTag);
-            vendingMachine.CoinsInMachineValue();
         }
 
         //Устанавливае значение поля выбранного напитка

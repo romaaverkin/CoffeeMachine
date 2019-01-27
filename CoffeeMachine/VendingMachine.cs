@@ -118,7 +118,11 @@ namespace CoffeeMachine
             }
             else
             {
-
+                CoffeBuy = true;
+                SetValueInvestedClient?.Invoke($"Внесите деньги");
+                AmountPaid = 0;
+                MoneyForChange();
+                CoinsInMachineValue();
             }
 
         }
@@ -145,6 +149,7 @@ namespace CoffeeMachine
             coin.Quantity++;
             moneyInvestedClient[tag].Quantity++;
             totalSum += coin.Rating;
+            CoinsInMachineValue();
         }
 
         //какие монеты в машине
@@ -180,7 +185,7 @@ namespace CoffeeMachine
                 {
                     if (coinsInVendingMashine[i].Quantity != 0)
                     {
-                        coinsInVendingMashine[i].Quantity--;
+                        //coinsInVendingMashine[i].Quantity--;
                         moneyForChange[i].Quantity++;
                         remainingChange -= coinsInVendingMashine[i].Rating;
                         break;
@@ -194,7 +199,7 @@ namespace CoffeeMachine
                 {
                     while (coinsInVendingMashine[i].Quantity != 0 && remainingChange >= coinsInVendingMashine[i].Rating)
                     {
-                        coinsInVendingMashine[i].Quantity--;
+                        //coinsInVendingMashine[i].Quantity--;
                         moneyForChange[i].Quantity++;
                         remainingChange -= coinsInVendingMashine[i].Rating;
                     }
@@ -233,11 +238,15 @@ namespace CoffeeMachine
 
                 totalSum = totalSumTemp;
                 EnoughChange = false;
-
-
             }
             else
             {
+                //Убираем из автомата деньги для сдачи
+                for (int i = 0; i < moneyForChange.Count; i++)
+                {
+                    coinsInVendingMashine[i].Quantity -= moneyForChange[i].Quantity;
+                }
+
                 //Формируем строку для сдачи
                 for (int j = 0; j < moneyForChange.Count; j++)
                 {
@@ -246,7 +255,7 @@ namespace CoffeeMachine
                 totalSum -= AmountPaid - PriceSelectedDrink;
                 EnoughChange = true;
             }
-            
+
             ChangeInMachine?.Invoke(clientChange);
         }
 
