@@ -110,12 +110,6 @@ namespace CoffeeMachine
             {
                 CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = visible;
             }
-
-            for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
-            {
-                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = visible;
-            }
-
         }
 
         //Узнать сколько монет есть в машине

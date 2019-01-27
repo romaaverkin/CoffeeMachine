@@ -97,29 +97,36 @@ namespace CoffeeMachine
 
         }
 
-        //Клик по кнопек выбора напитков
+        //Клик по кнопке выбора напитков
         public void ClickButtonDrink(int tag)
         {
             Drink drink = myDrinks[tag];
             selectedDrinkTag = tag;
             PriceSelectedDrink = drink.Price;
 
+
             if (AmountPaid < PriceSelectedDrink) 
             {
+                CoffeBuy = false;
+                //PriceSelectedDrink = 0;
                 SetValueDrink?.Invoke($"Недостаточно денег\nдля покупки.");
+                VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
             }
             else if (AmountPaid == PriceSelectedDrink)
             {
+                CoffeBuy = true;
+                SetVisibleButtonsMoney?.Invoke(CoffeBuy);
                 AmountPaid = 0;
                 SetValueInvestedClient?.Invoke($"Внесите деньги");
                 SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
-                VisibleAndSetHundler?.Invoke(true, "Спасибо за покупку!");
+                VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
             }
         }
 
         //Целчок по кнопке внести монету
         public void ClickButonMoney(int tag)
         {
+            CoffeBuy = false;
             VisibleAndSetHundler?.Invoke(false, "");
             SetValueDrink?.Invoke($"Выберите напиток");
             Coin coin = coinsInVendingMashine[tag];
