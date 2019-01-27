@@ -39,6 +39,7 @@ namespace CoffeeMachine
             vendingMachine.EventClickButtonDrink += SetEnabledButtonsDrinks;
             vendingMachine.EventClickButtonDrink += SetValueForChange;
             vendingMachine.EventClickButtonDrink += SetValueCoinsInMachine;
+            vendingMachine.EventClickButtonDrink += VisibleThankLabel;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {

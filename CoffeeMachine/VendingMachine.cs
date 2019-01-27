@@ -126,7 +126,11 @@ namespace CoffeeMachine
         //Щелчок по кнопке внести монету
         public void ClickButonMoney(int tag)
         {
+            ClearMoneyForChange();
+            ClearMoneyInvestedClient();
+            clientChange = "";
             CoffeBuy = false;
+            MessageBuyCoffee = "";
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
             ChoiceClient = "Выберите напиток";
@@ -241,6 +245,7 @@ namespace CoffeeMachine
 
                 clientChange += $"Общая сумма {AmountPaid - drink.Price} руб.";
                 totalSum -= AmountPaid - drink.Price;
+                MessageBuyCoffee = "Спасибо за покупку!";
             }
         }
 
