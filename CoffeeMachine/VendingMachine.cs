@@ -16,6 +16,8 @@ namespace CoffeeMachine
         public event MethodVisibleHandler SetVisibleButtonsMoney;
         public delegate void MethodVisibleAndSetHundler(bool visible, string message);
         public event MethodVisibleAndSetHundler VisibleAndSetHundler;
+        public delegate void DelegateEnabledDrinks(int tag);
+        public event DelegateEnabledDrinks EventEnabledDrinks;
 
         //цена выбранного клиентом напитка
         public int PriceSelectedDrink = 0;
@@ -98,7 +100,7 @@ namespace CoffeeMachine
             Drink drink = myDrinks[tag];
             PriceSelectedDrink = drink.Price;
 
-
+            EventEnabledDrinks?.Invoke(-1);
             if (AmountPaid < PriceSelectedDrink) 
             {
                 CoffeBuy = false;
@@ -120,7 +122,7 @@ namespace CoffeeMachine
             {
                 CoffeBuy = true;
                 SetValueInvestedClient?.Invoke($"Внесите деньги");
-                AmountPaid = 0;
+                VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
                 MoneyForChange();
                 CoinsInMachineValue();
             }
@@ -148,6 +150,19 @@ namespace CoffeeMachine
             moneyInvestedClient[tag].Quantity++;
             totalSum += coin.Rating;
             CoinsInMachineValue();
+
+            int MaximalTag = -1;
+
+            for (int i = myDrinks.Count - 1; i >= 0; i--)
+            {
+                if (myDrinks[i].Price <= AmountPaid)
+                {
+                    MaximalTag = i;
+                    break;
+                }
+            }
+
+            EventEnabledDrinks?.Invoke(MaximalTag);
         }
 
         //какие монеты в машине
@@ -255,6 +270,7 @@ namespace CoffeeMachine
             }
 
             ChangeInMachine?.Invoke(clientChange);
+            AmountPaid = 0;
         }
 
         //Обнуляем коллекцию для сдачи

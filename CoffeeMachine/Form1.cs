@@ -29,6 +29,7 @@ namespace CoffeeMachine
             vendingMachine.CoinsInMachine += SetValueCoinsInMachine;
             vendingMachine.ChangeInMachine += SetValueForChange;
             vendingMachine.VisibleAndSetHundler += VisibleThankLabel;
+            vendingMachine.EventEnabledDrinks += SetEnabledButtonsDrinks;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -104,9 +105,19 @@ namespace CoffeeMachine
         // Устанавливает активность кнопок выбора напитков
         public void SetEnabledButtonsDrinks(int tag)
         {
-            for (int i = 0; i <= tag; i++)
+            if (tag == -1)
             {
-                DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = false;
+                for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
+                {
+                    DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = false;
+                }
+            }
+            else
+            {
+                for (int i = 0; i <= tag; i++)
+                {
+                    DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = true;
+                }
             }
         }
 
