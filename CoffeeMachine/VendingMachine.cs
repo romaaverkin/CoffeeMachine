@@ -136,15 +136,13 @@ namespace CoffeeMachine
             SetValueDrink?.Invoke($"Выберите напиток");
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
-            string message;
 
             if (AmountPaid >= PriceMostExpensiveDrink)
             {
                 SetVisibleButtonsMoney?.Invoke(CoffeBuy);
             }
 
-            message = $"Вы внесли {AmountPaid.ToString()} руб.\n";
-            SetValueInvestedClient?.Invoke(message);
+            SetValueInvestedClient?.Invoke($"Вы внесли {AmountPaid.ToString()} руб.\n");
 
             coin.Quantity++;
             moneyInvestedClient[tag].Quantity++;
