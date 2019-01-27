@@ -22,15 +22,14 @@ namespace CoffeeMachine
         private void Form1_Load(object sender, EventArgs e)
         {
             vendingMachine = new VendingMachine();
-            //Подписались на событие клиет кликнул по кнопке выбора напитков
-            vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
-            vendingMachine.CoinsInMachine += SetValueCoinsInMachine;
-            vendingMachine.EventEnabledDrinks += SetEnabledButtonsDrinks;
-
+            //Подписались на событие клиет кликнул по кнопке внесения денег
             vendingMachine.EventClickButtonMoney += VisibleThankLabel;
             vendingMachine.EventClickButtonMoney += SetValueForChange;
             vendingMachine.EventClickButtonMoney += SetValueSelectedDrinkLabel;
             vendingMachine.EventClickButtonMoney += SetEnabledButtonsMoney;
+            vendingMachine.EventClickButtonMoney += SetValueInvesteClientMoney;
+            vendingMachine.EventClickButtonMoney += SetValueCoinsInMachine;
+            vendingMachine.EventClickButtonMoney += SetEnabledButtonsDrinks;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -62,6 +61,7 @@ namespace CoffeeMachine
             };
 
             vendingMachine.CoinsInMachineValue();
+            SetValueCoinsInMachine();
         }
 
         //Щелчок по кнопке выбора напитков
@@ -89,9 +89,9 @@ namespace CoffeeMachine
         }
 
         //Устанавливает значение поля внесенных клиентом денег
-        public void SetValueInvesteClientMoney(string message)
+        public void SetValueInvesteClientMoney()
         {
-            paymentLabel.Text = message;
+            paymentLabel.Text = $"Вы внесли {vendingMachine.AmountPaid.ToString()} руб.\n";
         }
 
         //Устанавливает активность кнопок внесения денег
@@ -104,9 +104,9 @@ namespace CoffeeMachine
         }
 
         // Устанавливает активность кнопок выбора напитков
-        public void SetEnabledButtonsDrinks(int tag)
+        public void SetEnabledButtonsDrinks()
         {
-            if (tag == -1)
+            if (vendingMachine.MaximalTag == -1)
             {
                 for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
                 {
@@ -115,7 +115,7 @@ namespace CoffeeMachine
             }
             else
             {
-                for (int i = 0; i <= tag; i++)
+                for (int i = 0; i <= vendingMachine.MaximalTag; i++)
                 {
                     DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = true;
                 }
@@ -123,9 +123,9 @@ namespace CoffeeMachine
         }
 
         //Устанавливает сколько монет и какого номинала есть в машине
-        public void SetValueCoinsInMachine(string message)
+        public void SetValueCoinsInMachine()
         {
-            currentBalanceVendingMachineLabel.Text = message;
+            currentBalanceVendingMachineLabel.Text = vendingMachine.CoinsInTheMachine;
         }
 
         //Устанавливает поле сдачи

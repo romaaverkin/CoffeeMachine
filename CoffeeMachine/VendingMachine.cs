@@ -10,7 +10,6 @@ namespace CoffeeMachine
         public delegate void MethodSetValue(string value);
         public event MethodSetValue SetValueInvestedClient;
         public event MethodSetValue SetValueDrink;
-        public event MethodSetValue CoinsInMachine;
         public event MethodSetValue ChangeInMachine;
         public delegate void MethodVisibleHandler(bool visible);
         public event MethodVisibleHandler SetVisibleButtonsMoney;
@@ -52,11 +51,14 @@ namespace CoffeeMachine
         //всего денег в машине
         public int totalSum = 0;
 
-        //Хватит ли сдачи
-        public bool EnoughChange = true;
-
         // Цена самого дорого кофе
         public int PriceMostExpensiveDrink = 0;
+
+        // Какие монеты есть в машине
+        public string CoinsInTheMachine = "";
+
+        // Кнопки до какого тега включительно показывать
+        public int MaximalTag = -1;
 
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
@@ -153,18 +155,13 @@ namespace CoffeeMachine
 
             if (AmountPaid >= PriceMostExpensiveDrink)
             {
-                //SetVisibleButtonsMoney?.Invoke(CoffeBuy);
                 EnabledButtonsMoney = false;
             }
-
-            SetValueInvestedClient?.Invoke($"Вы внесли {AmountPaid.ToString()} руб.\n");
 
             coin.Quantity++;
             moneyInvestedClient[tag].Quantity++;
             totalSum += coin.Rating;
-            CoinsInMachineValue();
-
-            int MaximalTag = -1;
+            CoinsInMachineValue();          
 
             for (int i = myDrinks.Count - 1; i >= 0; i--)
             {
@@ -174,14 +171,14 @@ namespace CoffeeMachine
                     break;
                 }
             }
+
             EventClickButtonMoney?.Invoke();
-            EventEnabledDrinks?.Invoke(MaximalTag);
         }
 
         //какие монеты в машине
         public void CoinsInMachineValue()
         {
-            string CoinsInTheMachine = "В автомате есть\n";
+            CoinsInTheMachine = "В автомате есть\n";
 
             for (int i = 0; i < coinsInVendingMashine.Count; i++)
             {
@@ -189,8 +186,6 @@ namespace CoffeeMachine
             }
 
             CoinsInTheMachine += $"Общая сумма {totalSum} руб.";
-
-            CoinsInMachine?.Invoke(CoinsInTheMachine);
         }
 
         //Сдача
@@ -263,7 +258,6 @@ namespace CoffeeMachine
                 }
 
                 totalSum = totalSumTemp;
-                EnoughChange = false;
             }
             else
             {
@@ -279,7 +273,6 @@ namespace CoffeeMachine
                     clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
                 }
                 totalSum -= AmountPaid - PriceSelectedDrink;
-                EnoughChange = true;
             }
 
             ChangeInMachine?.Invoke(clientChange);
