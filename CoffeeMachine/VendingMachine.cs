@@ -37,9 +37,6 @@ namespace CoffeeMachine
         //монеты для сдачи
         public List<Coin> moneyForChange = new List<Coin>();
 
-        //монеты внесенные клиентом
-        public List<Coin> moneyInvestedClient = new List<Coin>();
-
         //всего денег в машине
         public int totalSum = 0;
 
@@ -89,12 +86,6 @@ namespace CoffeeMachine
                 moneyForChange.Add(new Coin(coinsInVendingMashine[i].Rating, 0));
             }
 
-            //коллекцию для внесенных монет заполняем нолями
-            for (int i = 0; i < coinsInVendingMashine.Count; i++)
-            {
-                moneyInvestedClient.Add(new Coin(coinsInVendingMashine[i].Rating, 0));
-            }
-
             //сумма денег в автомате
             for (int i = 0; i < coinsInVendingMashine.Count; i++)
             {
@@ -127,7 +118,6 @@ namespace CoffeeMachine
         public void ClickButonMoney(int tag)
         {
             ClearMoneyForChange();
-            ClearMoneyInvestedClient();
             clientChange = "";
             CoffeBuy = false;
             MessageBuyCoffee = "";
@@ -141,7 +131,6 @@ namespace CoffeeMachine
             }
 
             coin.Quantity++;
-            moneyInvestedClient[tag].Quantity++;
             totalSum += coin.Rating;
             CoinsInMachineValue();          
 
@@ -202,29 +191,16 @@ namespace CoffeeMachine
             }
 
             //В автомате не хватило денег для сдачи
-            //Todo: Надо реализовать
+            //Todo: Надо использовать не только жадный метод
             if (remainingChange != 0)
             {
                 clientChange = "Извините, нет монет для сдачи.\nЗаберите внесенные деньги.\n";
-                ChangeInMachine?.Invoke(clientChange);
-
-                //возвращаем монеты из коллекции монеты для сдачи в машину
-                for (int n = 0; n < moneyForChange.Count; n++)
-                {
-                    coinsInVendingMashine[n].Quantity += moneyForChange[n].Quantity;
-                }
-
-                for (int k = 0; k < moneyInvestedClient.Count; k++)
-                {
-                    coinsInVendingMashine[k].Quantity -= moneyInvestedClient[k].Quantity;
-                    clientChange += $"{moneyInvestedClient[k].Rating.ToString()} руб. в количестве {moneyInvestedClient[k].Quantity.ToString()} штук\n";
-                }
 
                 int totalSumTemp = 0;
 
-                for (int b = 0; b < coinsInVendingMashine.Count; b++)
+                for (int i = 0; i < coinsInVendingMashine.Count; i++)
                 {
-                    totalSumTemp += coinsInVendingMashine[b].Rating * coinsInVendingMashine[b].Quantity;
+                    totalSumTemp += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
                 }
 
                 totalSum = totalSumTemp;
@@ -238,9 +214,9 @@ namespace CoffeeMachine
                 }
 
                 //Формируем строку для сдачи
-                for (int j = 0; j < moneyForChange.Count; j++)
+                for (int i = 0; i < moneyForChange.Count; i++)
                 {
-                    clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
+                    clientChange += $"{moneyForChange[i].Rating.ToString()} руб. в количестве {moneyForChange[i].Quantity.ToString()} штук\n";
                 }
 
                 clientChange += $"Общая сумма {AmountPaid - drink.Price} руб.";
@@ -255,15 +231,6 @@ namespace CoffeeMachine
             for (int i = 0; i < moneyForChange.Count; i++)
             {
                 moneyForChange[i].Quantity = 0;
-            }
-        }
-
-        //Обнуляем коллекцию монет внесенных клиентом
-        public void ClearMoneyInvestedClient()
-        {
-            for (int i = 0; i < moneyInvestedClient.Count; i++)
-            {
-                moneyInvestedClient[i].Quantity = 0;
             }
         }
 
