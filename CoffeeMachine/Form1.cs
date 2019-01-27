@@ -23,13 +23,14 @@ namespace CoffeeMachine
         {
             vendingMachine = new VendingMachine();
             //Подписались на событие клиет кликнул по кнопке выбора напитков
-            vendingMachine.SetValueDrink += SetValueSelectedDrinkLabel;
-            vendingMachine.SetVisibleButtonsMoney += SetEnabledButtonsMoney;
             vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
             vendingMachine.CoinsInMachine += SetValueCoinsInMachine;
-            vendingMachine.ChangeInMachine += SetValueForChange;
-            vendingMachine.VisibleAndSetHundler += VisibleThankLabel;
             vendingMachine.EventEnabledDrinks += SetEnabledButtonsDrinks;
+
+            vendingMachine.EventClickButtonMoney += VisibleThankLabel;
+            vendingMachine.EventClickButtonMoney += SetValueForChange;
+            vendingMachine.EventClickButtonMoney += SetValueSelectedDrinkLabel;
+            vendingMachine.EventClickButtonMoney += SetEnabledButtonsMoney;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -82,9 +83,9 @@ namespace CoffeeMachine
         }
 
         //Устанавливае значение поля выбранного напитка
-        public void SetValueSelectedDrinkLabel(string name)
+        public void SetValueSelectedDrinkLabel()
         {
-            selectedDrinkLabel.Text = name;
+            selectedDrinkLabel.Text = vendingMachine.ChoiceClient;
         }
 
         //Устанавливает значение поля внесенных клиентом денег
@@ -94,11 +95,11 @@ namespace CoffeeMachine
         }
 
         //Устанавливает активность кнопок внесения денег
-        public void SetEnabledButtonsMoney(bool visible)
+        public void SetEnabledButtonsMoney()
         {
             for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
             {
-                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = visible;
+                CoinsFlowLayoutPanel.Controls["moneyButton" + i].Enabled = vendingMachine.EnabledButtonsMoney;
             }
         }
 
@@ -128,16 +129,16 @@ namespace CoffeeMachine
         }
 
         //Устанавливает поле сдачи
-        public void SetValueForChange(string message)
+        public void SetValueForChange()
         {
-            yourСhangelabel.Text = message;
+            yourСhangelabel.Text = vendingMachine.ChangeClient;
         }
 
         //Устанавливает видимость поля спасибо за покупку
-        public void VisibleThankLabel(bool visible, string message)
+        public void VisibleThankLabel()
         {
-            thankLabel.Visible = visible;
-            thankLabel.Text = message;
+            thankLabel.Visible = vendingMachine.CoffeBuy;
+            thankLabel.Text = vendingMachine.MessageBuyCoffee;
         }
     }
 }

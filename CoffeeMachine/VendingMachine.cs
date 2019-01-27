@@ -19,6 +19,21 @@ namespace CoffeeMachine
         public delegate void DelegateEnabledDrinks(int tag);
         public event DelegateEnabledDrinks EventEnabledDrinks;
 
+        public delegate void DelegateClickButtonMoney();
+        public event DelegateClickButtonMoney EventClickButtonMoney;
+
+        // Сообщение о покупке кофе
+        public string MessageBuyCoffee = "";
+
+        // Сдача клиента
+        public string ChangeClient = "";
+
+        //Какой кофе выбрал клиент
+        public string ChoiceClient = "Выберите напиток";
+
+        //Активность кнопок внесения денег
+        public bool EnabledButtonsMoney = true;
+
         //цена выбранного клиентом напитка
         public int PriceSelectedDrink = 0;
 
@@ -133,15 +148,13 @@ namespace CoffeeMachine
         public void ClickButonMoney(int tag)
         {
             CoffeBuy = false;
-            VisibleAndSetHundler?.Invoke(false, "");
-            ChangeInMachine?.Invoke("");
-            SetValueDrink?.Invoke($"Выберите напиток");
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
 
             if (AmountPaid >= PriceMostExpensiveDrink)
             {
-                SetVisibleButtonsMoney?.Invoke(CoffeBuy);
+                //SetVisibleButtonsMoney?.Invoke(CoffeBuy);
+                EnabledButtonsMoney = false;
             }
 
             SetValueInvestedClient?.Invoke($"Вы внесли {AmountPaid.ToString()} руб.\n");
@@ -161,7 +174,7 @@ namespace CoffeeMachine
                     break;
                 }
             }
-
+            EventClickButtonMoney?.Invoke();
             EventEnabledDrinks?.Invoke(MaximalTag);
         }
 
