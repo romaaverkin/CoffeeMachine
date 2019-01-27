@@ -22,6 +22,7 @@ namespace CoffeeMachine
         private void Form1_Load(object sender, EventArgs e)
         {
             vendingMachine = new VendingMachine();
+
             //Подписались на событие клиет кликнул по кнопке внесения денег
             vendingMachine.EventClickButtonMoney += VisibleThankLabel;
             vendingMachine.EventClickButtonMoney += SetValueForChange;
@@ -30,6 +31,12 @@ namespace CoffeeMachine
             vendingMachine.EventClickButtonMoney += SetValueInvesteClientMoney;
             vendingMachine.EventClickButtonMoney += SetValueCoinsInMachine;
             vendingMachine.EventClickButtonMoney += SetEnabledButtonsDrinks;
+
+            //Подписались на событие клиет кликнул по кнопке выбора кофе
+            vendingMachine.EventClickButtonDrink += SetEnabledButtonsMoney;
+            vendingMachine.EventClickButtonDrink += SetValueSelectedDrinkLabel;
+            vendingMachine.EventClickButtonDrink += SetValueInvesteClientMoney;
+            vendingMachine.EventClickButtonDrink += SetEnabledButtonsDrinks;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {

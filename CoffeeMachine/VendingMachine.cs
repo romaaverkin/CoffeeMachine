@@ -8,18 +8,13 @@ namespace CoffeeMachine
     class VendingMachine
     {
         public delegate void MethodSetValue(string value);
-        public event MethodSetValue SetValueInvestedClient;
-        public event MethodSetValue SetValueDrink;
         public event MethodSetValue ChangeInMachine;
-        public delegate void MethodVisibleHandler(bool visible);
-        public event MethodVisibleHandler SetVisibleButtonsMoney;
-        public delegate void MethodVisibleAndSetHundler(bool visible, string message);
-        public event MethodVisibleAndSetHundler VisibleAndSetHundler;
-        public delegate void DelegateEnabledDrinks(int tag);
-        public event DelegateEnabledDrinks EventEnabledDrinks;
 
         public delegate void DelegateClickButtonMoney();
         public event DelegateClickButtonMoney EventClickButtonMoney;
+
+        public delegate void DelegateClickButtonDrink();
+        public event DelegateClickButtonDrink EventClickButtonDrink;
 
         // Сообщение о покупке кофе
         public string MessageBuyCoffee = "";
@@ -33,8 +28,8 @@ namespace CoffeeMachine
         //Активность кнопок внесения денег
         public bool EnabledButtonsMoney = true;
 
-        //цена выбранного клиентом напитка
-        public int PriceSelectedDrink = 0;
+        //Выбранный клиентом кофе
+        public Drink drink;
 
         //Внесенная клиентом сумма
         public int AmountPaid = 0;
@@ -114,36 +109,17 @@ namespace CoffeeMachine
         //Клик по кнопке выбора напитков
         public void ClickButtonDrink(int tag)
         {
-            Drink drink = myDrinks[tag];
-            PriceSelectedDrink = drink.Price;
+            drink = myDrinks[tag];
 
-            EventEnabledDrinks?.Invoke(-1);
-            if (AmountPaid < PriceSelectedDrink) 
-            {
-                CoffeBuy = false;
-                SetValueDrink?.Invoke($"Недостаточно денег\nдля покупки.");
-                VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
-                ChangeInMachine?.Invoke("");
-            }
-            else if (AmountPaid == PriceSelectedDrink)
-            {
-                CoffeBuy = true;
-                SetVisibleButtonsMoney?.Invoke(CoffeBuy);
-                AmountPaid = 0;
-                SetValueInvestedClient?.Invoke($"Внесите деньги");
-                SetValueDrink?.Invoke($"Вы выбрали\n{drink.Name} - {drink.Price} руб.");
-                VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
-                ChangeInMachine?.Invoke("Спасибо, что без сдачи!");
-            }
-            else
-            {
-                CoffeBuy = true;
-                SetValueInvestedClient?.Invoke($"Внесите деньги");
-                VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
-                MoneyForChange();
-                CoinsInMachineValue();
-            }
+            CoffeBuy = true;
+            EnabledButtonsMoney = true;
+            AmountPaid = 0;
+            MaximalTag = -1;
+            ChoiceClient = $"Вы выбрали\n{drink.Name} - {drink.Price} руб.";
+                       
 
+
+            EventClickButtonDrink?.Invoke();
         }
 
         //Щелчок по кнопке внести монету
@@ -152,6 +128,7 @@ namespace CoffeeMachine
             CoffeBuy = false;
             Coin coin = coinsInVendingMashine[tag];
             AmountPaid += coin.Rating;
+            ChoiceClient = "Выберите напиток";
 
             if (AmountPaid >= PriceMostExpensiveDrink)
             {
@@ -191,7 +168,7 @@ namespace CoffeeMachine
         //Сдача
         public void MoneyForChange()
         {
-            int remainingChange = AmountPaid - PriceSelectedDrink;
+            int remainingChange = AmountPaid - drink.Price;
 
             string clientChange = "Ваша сдача\n";
 
@@ -272,7 +249,7 @@ namespace CoffeeMachine
                 {
                     clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
                 }
-                totalSum -= AmountPaid - PriceSelectedDrink;
+                totalSum -= AmountPaid - drink.Price;
             }
 
             ChangeInMachine?.Invoke(clientChange);
