@@ -37,6 +37,8 @@ namespace CoffeeMachine
             vendingMachine.EventClickButtonDrink += SetValueSelectedDrinkLabel;
             vendingMachine.EventClickButtonDrink += SetValueInvesteClientMoney;
             vendingMachine.EventClickButtonDrink += SetEnabledButtonsDrinks;
+            vendingMachine.EventClickButtonDrink += SetValueForChange;
+            vendingMachine.EventClickButtonDrink += SetValueCoinsInMachine;
 
             for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
             {
@@ -138,7 +140,7 @@ namespace CoffeeMachine
         //Устанавливает поле сдачи
         public void SetValueForChange()
         {
-            yourСhangelabel.Text = vendingMachine.ChangeClient;
+            yourСhangelabel.Text = vendingMachine.clientChange;
         }
 
         //Устанавливает видимость поля спасибо за покупку

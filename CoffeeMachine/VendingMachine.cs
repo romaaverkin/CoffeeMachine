@@ -19,9 +19,6 @@ namespace CoffeeMachine
         // Сообщение о покупке кофе
         public string MessageBuyCoffee = "";
 
-        // Сдача клиента
-        public string ChangeClient = "";
-
         //Какой кофе выбрал клиент
         public string ChoiceClient = "Выберите напиток";
 
@@ -54,6 +51,9 @@ namespace CoffeeMachine
 
         // Кнопки до какого тега включительно показывать
         public int MaximalTag = -1;
+
+        //Сдача клиента
+        public string clientChange = "";
 
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
@@ -113,11 +113,12 @@ namespace CoffeeMachine
 
             CoffeBuy = true;
             EnabledButtonsMoney = true;
-            AmountPaid = 0;
             MaximalTag = -1;
             ChoiceClient = $"Вы выбрали\n{drink.Name} - {drink.Price} руб.";
-                       
 
+            MoneyForChange();
+            CoinsInMachineValue();
+            AmountPaid = 0;
 
             EventClickButtonDrink?.Invoke();
         }
@@ -152,25 +153,12 @@ namespace CoffeeMachine
             EventClickButtonMoney?.Invoke();
         }
 
-        //какие монеты в машине
-        public void CoinsInMachineValue()
-        {
-            CoinsInTheMachine = "В автомате есть\n";
-
-            for (int i = 0; i < coinsInVendingMashine.Count; i++)
-            {
-                CoinsInTheMachine += $"{coinsInVendingMashine[i].Rating} руб. в количестве {coinsInVendingMashine[i].Quantity} штук\n";
-            }
-
-            CoinsInTheMachine += $"Общая сумма {totalSum} руб.";
-        }
-
         //Сдача
         public void MoneyForChange()
         {
             int remainingChange = AmountPaid - drink.Price;
 
-            string clientChange = "Ваша сдача\n";
+            clientChange = "Ваша сдача\n";
 
             for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
             {
@@ -210,6 +198,7 @@ namespace CoffeeMachine
             }
 
             //В автомате не хватило денег для сдачи
+            //Todo: Надо реализовать
             if (remainingChange != 0)
             {
                 clientChange = "Извините, нет монет для сдачи.\nЗаберите внесенные деньги.\n";
@@ -249,11 +238,10 @@ namespace CoffeeMachine
                 {
                     clientChange += $"{moneyForChange[j].Rating.ToString()} руб. в количестве {moneyForChange[j].Quantity.ToString()} штук\n";
                 }
+
+                clientChange += $"Общая сумма {AmountPaid - drink.Price} руб.";
                 totalSum -= AmountPaid - drink.Price;
             }
-
-            ChangeInMachine?.Invoke(clientChange);
-            AmountPaid = 0;
         }
 
         //Обнуляем коллекцию для сдачи
@@ -272,6 +260,19 @@ namespace CoffeeMachine
             {
                 moneyInvestedClient[i].Quantity = 0;
             }
+        }
+
+        //какие монеты в машине
+        public void CoinsInMachineValue()
+        {
+            CoinsInTheMachine = "В автомате есть\n";
+
+            for (int i = 0; i < coinsInVendingMashine.Count; i++)
+            {
+                CoinsInTheMachine += $"{coinsInVendingMashine[i].Rating} руб. в количестве {coinsInVendingMashine[i].Quantity} штук\n";
+            }
+
+            CoinsInTheMachine += $"Общая сумма {totalSum} руб.";
         }
     }
 }
