@@ -14,13 +14,9 @@ namespace CoffeeMachine
         public event MethodSetValue ChangeInMachine;
         public delegate void MethodVisibleHandler(bool visible);
         public event MethodVisibleHandler SetVisibleButtonsMoney;
-        public event MethodVisibleHandler SetVisibilityButtonBuy;
         public event MethodVisibleHandler SetVisibleButtonsDrink;
         public delegate void MethodVisibleAndSetHundler(bool visible, string message);
         public event MethodVisibleAndSetHundler VisibleAndSetHundler;
-
-        //Тег Выбранного напитка
-        public int? selectedDrinkTag;
 
         //цена выбранного клиентом напитка
         public int PriceSelectedDrink = 0;
@@ -101,14 +97,12 @@ namespace CoffeeMachine
         public void ClickButtonDrink(int tag)
         {
             Drink drink = myDrinks[tag];
-            selectedDrinkTag = tag;
             PriceSelectedDrink = drink.Price;
 
 
             if (AmountPaid < PriceSelectedDrink) 
             {
                 CoffeBuy = false;
-                //PriceSelectedDrink = 0;
                 SetValueDrink?.Invoke($"Недостаточно денег\nдля покупки.");
                 VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
                 ChangeInMachine?.Invoke("");

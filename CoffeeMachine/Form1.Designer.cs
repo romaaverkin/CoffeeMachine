@@ -32,7 +32,6 @@
             this.paymentLabel = new System.Windows.Forms.Label();
             this.DrinksFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.CoinsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.selectCoffeeButton = new System.Windows.Forms.Button();
             this.currentBalanceVendingMachineLabel = new System.Windows.Forms.Label();
             this.yourСhangelabel = new System.Windows.Forms.Label();
             this.thankLabel = new System.Windows.Forms.Label();
@@ -78,17 +77,6 @@
             this.CoinsFlowLayoutPanel.Size = new System.Drawing.Size(180, 300);
             this.CoinsFlowLayoutPanel.TabIndex = 3;
             // 
-            // selectCoffeeButton
-            // 
-            this.selectCoffeeButton.Location = new System.Drawing.Point(145, 366);
-            this.selectCoffeeButton.Name = "selectCoffeeButton";
-            this.selectCoffeeButton.Size = new System.Drawing.Size(124, 23);
-            this.selectCoffeeButton.TabIndex = 4;
-            this.selectCoffeeButton.Text = "Выбрать кофе";
-            this.selectCoffeeButton.UseVisualStyleBackColor = true;
-            this.selectCoffeeButton.Visible = false;
-            this.selectCoffeeButton.Click += new System.EventHandler(this.SelectCoffeButton_Click);
-            // 
             // currentBalanceVendingMachineLabel
             // 
             this.currentBalanceVendingMachineLabel.AutoSize = true;
@@ -122,7 +110,6 @@
             this.Controls.Add(this.thankLabel);
             this.Controls.Add(this.yourСhangelabel);
             this.Controls.Add(this.currentBalanceVendingMachineLabel);
-            this.Controls.Add(this.selectCoffeeButton);
             this.Controls.Add(this.CoinsFlowLayoutPanel);
             this.Controls.Add(this.DrinksFlowLayoutPanel);
             this.Controls.Add(this.paymentLabel);
@@ -141,7 +128,6 @@
         private System.Windows.Forms.Label paymentLabel;
         private System.Windows.Forms.FlowLayoutPanel DrinksFlowLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel CoinsFlowLayoutPanel;
-        private System.Windows.Forms.Button selectCoffeeButton;
         private System.Windows.Forms.Label currentBalanceVendingMachineLabel;
         private System.Windows.Forms.Label yourСhangelabel;
         private System.Windows.Forms.Label thankLabel;

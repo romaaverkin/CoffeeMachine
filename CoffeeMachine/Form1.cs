@@ -27,7 +27,6 @@ namespace CoffeeMachine
             vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtoncDrink;
             vendingMachine.SetVisibleButtonsMoney += SetVisibilityButtonsMoney;
             vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
-            vendingMachine.SetVisibilityButtonBuy += SetVisibleBuyButton;
             vendingMachine.CoinsInMachine += SetValueCoinsInMachine;
             vendingMachine.ChangeInMachine += SetValueForChange;
             vendingMachine.VisibleAndSetHundler += VisibleThankLabel;
@@ -118,12 +117,6 @@ namespace CoffeeMachine
             currentBalanceVendingMachineLabel.Text = message;
         }
 
-        //Видимость кнопки купить
-        public void SetVisibleBuyButton(bool visible)
-        {
-            selectCoffeeButton.Visible = visible;
-        }
-
         //Щелчок по кнопке купить
         private void SelectCoffeButton_Click(object sender, EventArgs e)
         {
@@ -132,7 +125,6 @@ namespace CoffeeMachine
             thankLabel.Visible = false;
             selectedDrinkLabel.Text = "Выберите напиток";
             paymentLabel.Text = "Вы внесли 0 руб.";
-            selectCoffeeButton.Visible = false;
             vendingMachine.AgainSelectCoffe();
             vendingMachine.ClearMoneyForChange();
             vendingMachine.ClearMoneyInvestedClient();
