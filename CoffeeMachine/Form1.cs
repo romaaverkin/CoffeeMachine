@@ -24,7 +24,6 @@ namespace CoffeeMachine
             vendingMachine = new VendingMachine();
             //Подписались на событие клиет кликнул по кнопке выбора напитков
             vendingMachine.SetValueDrink += SetValueSelectedDrinkLabel;
-            vendingMachine.SetVisibleButtonsDrink += SetVisibilityButtoncDrink;
             vendingMachine.SetVisibleButtonsMoney += SetVisibilityButtonsMoney;
             vendingMachine.SetValueInvestedClient += SetValueInvesteClientMoney;
             vendingMachine.CoinsInMachine += SetValueCoinsInMachine;
@@ -87,22 +86,13 @@ namespace CoffeeMachine
             selectedDrinkLabel.Text = name;
         }
 
-        //Устанавливает значение поля внесенных клиентом денег и сдачи
+        //Устанавливает значение поля внесенных клиентом денег
         public void SetValueInvesteClientMoney(string message)
         {
             paymentLabel.Text = message;
         }
 
-        //Видимы ли кнопки выбора напитков
-        public void SetVisibilityButtoncDrink(bool CoffeBuy)
-        {
-            for (int i = 0; i < vendingMachine.myDrinks.Count; i++)
-            {
-                DrinksFlowLayoutPanel.Controls["drinkButton" + i].Enabled = CoffeBuy;
-            }
-        }
-
-        //Видимы ли кнопки внесения денег
+        //Устанавливает видимость кнопок внесения денег
         public void SetVisibilityButtonsMoney(bool visible)
         {
             for (int i = 0; i < vendingMachine.coinsInVendingMashine.Count; i++)
@@ -111,32 +101,19 @@ namespace CoffeeMachine
             }
         }
 
-        //Узнать сколько монет есть в машине
+        //Устанавливает сколько монет и какого номинала есть в машине
         public void SetValueCoinsInMachine(string message)
         {
             currentBalanceVendingMachineLabel.Text = message;
         }
 
-        //Щелчок по кнопке купить
-        private void SelectCoffeButton_Click(object sender, EventArgs e)
-        {
-            vendingMachine.ClearMoneyForChange();
-            yourСhangelabel.Text = "";
-            thankLabel.Visible = false;
-            selectedDrinkLabel.Text = "Выберите напиток";
-            paymentLabel.Text = "Вы внесли 0 руб.";
-            vendingMachine.AgainSelectCoffe();
-            vendingMachine.ClearMoneyForChange();
-            vendingMachine.ClearMoneyInvestedClient();
-        }
-
-        //Какие монеты есть для сдачи
+        //Устанавливает поле сдачи
         public void SetValueForChange(string message)
         {
             yourСhangelabel.Text = message;
         }
 
-        //Видимость поля спасибо за покупку
+        //Устанавливает видимость поля спасибо за покупку
         public void VisibleThankLabel(bool visible, string message)
         {
             thankLabel.Visible = visible;

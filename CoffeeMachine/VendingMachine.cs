@@ -14,7 +14,6 @@ namespace CoffeeMachine
         public event MethodSetValue ChangeInMachine;
         public delegate void MethodVisibleHandler(bool visible);
         public event MethodVisibleHandler SetVisibleButtonsMoney;
-        public event MethodVisibleHandler SetVisibleButtonsDrink;
         public delegate void MethodVisibleAndSetHundler(bool visible, string message);
         public event MethodVisibleAndSetHundler VisibleAndSetHundler;
 
@@ -117,6 +116,11 @@ namespace CoffeeMachine
                 VisibleAndSetHundler?.Invoke(CoffeBuy, "Спасибо за покупку!");
                 ChangeInMachine?.Invoke("Спасибо, что без сдачи!");
             }
+            else
+            {
+
+            }
+
         }
 
         //Щелчок по кнопке внести монету
@@ -244,15 +248,6 @@ namespace CoffeeMachine
             }
             
             ChangeInMachine?.Invoke(clientChange);
-        }
-
-        //снова выбрать кофе
-        public void AgainSelectCoffe()
-        {
-            PriceSelectedDrink = 0;
-            AmountPaid = 0;
-            CoffeBuy = true;
-            SetVisibleButtonsDrink?.Invoke(CoffeBuy);
         }
 
         //Обнуляем коллекцию для сдачи
