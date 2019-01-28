@@ -112,7 +112,11 @@ namespace CoffeeMachine
 
             if (MoneyForChange(AmountPaid - drink.Price))
             {
+                AmountPaid = 0;
                 GiveChange();
+                ClearMoneyForChange();
+                totalSum -= AmountPaid - drink.Price;
+                CoinsInMachineValue();
             }
             else
             {
@@ -120,9 +124,12 @@ namespace CoffeeMachine
                 ClearMoneyForChange();
                 MoneyForChange(AmountPaid);
                 GiveChange();
+                totalSum -= AmountPaid;
+                MessageBuyCoffee = "Приносим извинения!";
+                CoinsInMachineValue();
             }
 
-            CoinsInMachineValue();
+            //CoinsInMachineValue();
             AmountPaid = 0;
 
             EventClickButtonDrink?.Invoke();
@@ -220,9 +227,9 @@ namespace CoffeeMachine
                 clientChange += $"{moneyForChange[i].Rating.ToString()} руб. в количестве {moneyForChange[i].Quantity.ToString()} штук\n";
             }
 
-            clientChange += $"Общая сумма {TotalSumChange()} руб.";
+            clientChange += $"Общая сумма {AmountPaid} руб.";
 
-            TotalSumInMachine();
+            //TotalSumInMachine();
             MessageBuyCoffee = "Спасибо за покупку!";
         }
 
