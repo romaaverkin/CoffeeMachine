@@ -67,17 +67,17 @@ namespace CoffeeMachine
         public List<Coin> coinsInVendingMashine = new List<Coin>
         {
             //Можно добавлять новые номиналы
-            //new Coin(2, 10),
-            //new Coin(10, 10),
-            //new Coin(5, 10),
-            //new Coin(25, 2),
-            //new Coin(1, 15)
+            new Coin(2, 10),
+            new Coin(10, 10),
+            new Coin(5, 10),
+            new Coin(25, 2),
+            new Coin(1, 15)
 
-            new Coin(2, 0),
-            new Coin(10, 0),
-            new Coin(5, 0),
-            new Coin(25, 1),
-            new Coin(1, 0)
+            //new Coin(2, 0),
+            //new Coin(10, 0),
+            //new Coin(5, 0),
+            //new Coin(25, 1),
+            //new Coin(1, 0)
         };
 
         //Конструктор
@@ -110,15 +110,21 @@ namespace CoffeeMachine
             MaximalTag = -1;
             ChoiceClient = $"Вы выбрали\n{drink.Name} - {drink.Price} руб.";
 
-            if (MoneyForChange(AmountPaid - drink.Price))
+            if (AmountPaid == drink.Price) //если без сдачи
             {
                 AmountPaid = 0;
+                totalSum += AmountPaid;
+                MessageBuyCoffee = "Спсибо, что без сдачи!";
+            }
+            else if (MoneyForChange(AmountPaid - drink.Price))//если в машине есть деньги для сдачи
+            {
+                //AmountPaid = 0;
+                totalSum -= AmountPaid - drink.Price;
                 GiveChange();
                 ClearMoneyForChange();
-                totalSum -= AmountPaid - drink.Price;
                 CoinsInMachineValue();
             }
-            else
+            else //ечли в машине нет денег для сдачи
             {
                 ReturnMoneyInMachine();
                 ClearMoneyForChange();
@@ -227,7 +233,7 @@ namespace CoffeeMachine
                 clientChange += $"{moneyForChange[i].Rating.ToString()} руб. в количестве {moneyForChange[i].Quantity.ToString()} штук\n";
             }
 
-            clientChange += $"Общая сумма {AmountPaid} руб.";
+            clientChange += $"Общая сумма {AmountPaid - drink.Price} руб.";
 
             //TotalSumInMachine();
             MessageBuyCoffee = "Спасибо за покупку!";
