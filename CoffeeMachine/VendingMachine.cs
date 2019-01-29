@@ -112,13 +112,11 @@ namespace CoffeeMachine
 
             if (AmountPaid == drink.Price) //если без сдачи
             {
-                AmountPaid = 0;
                 totalSum += AmountPaid;
                 MessageBuyCoffee = "Спсибо, что без сдачи!";
             }
             else if (MoneyForChange(AmountPaid - drink.Price))//если в машине есть деньги для сдачи
             {
-                //AmountPaid = 0;
                 totalSum -= AmountPaid - drink.Price;
                 GiveChange();
                 ClearMoneyForChange();
@@ -135,7 +133,6 @@ namespace CoffeeMachine
                 CoinsInMachineValue();
             }
 
-            //CoinsInMachineValue();
             AmountPaid = 0;
 
             EventClickButtonDrink?.Invoke();
