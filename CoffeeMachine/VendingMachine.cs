@@ -93,7 +93,10 @@ namespace CoffeeMachine
             }
 
             //сумма денег в автомате
-            TotalSumInMachine();
+            for (int i = 0; i < coinsInVendingMashine.Count; i++)
+            {
+                totalSum += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
+            }
 
             //Устанавливаем цену самого дорогого напитка
             PriceMostExpensiveDrink = myDrinks[myDrinks.Count - 1].Price;
@@ -112,20 +115,20 @@ namespace CoffeeMachine
 
             if (AmountPaid == drink.Price) //если без сдачи
             {
-                totalSum += AmountPaid;
+                //totalSum += AmountPaid;
                 MessageBuyCoffee = "Спсибо, что без сдачи!";
             }
             else if (MoneyForChange(AmountPaid - drink.Price))//если в машине есть деньги для сдачи
             {
                 totalSum -= AmountPaid - drink.Price;
                 GiveChange();
-                ClearMoneyForChange();
+                //ClearMoneyForChange();
                 CoinsInMachineValue();
             }
             else //ечли в машине нет денег для сдачи
             {
                 ReturnMoneyInMachine();
-                ClearMoneyForChange();
+                //ClearMoneyForChange();
                 MoneyForChange(AmountPaid);
                 GiveChange();
                 totalSum -= AmountPaid;
@@ -141,7 +144,7 @@ namespace CoffeeMachine
         //Щелчок по кнопке внести монету
         public void ClickButonMoney(int tag)
         {
-            ClearMoneyForChange();
+            //ClearMoneyForChange();
             clientChange = "";
             CoffeBuy = false;
             MessageBuyCoffee = "";
@@ -234,6 +237,8 @@ namespace CoffeeMachine
 
             //TotalSumInMachine();
             MessageBuyCoffee = "Спасибо за покупку!";
+
+            ClearMoneyForChange(); //очищаем коллекцию для сдачи
         }
 
         //Обнуляем коллекцию для сдачи
@@ -258,27 +263,27 @@ namespace CoffeeMachine
             CoinsInTheMachine += $"Общая сумма {totalSum} руб.";
         }
 
-        //Общая сумма сдачи
-        public int TotalSumChange()
-        {
-            int Sum = 0;
+        ////Общая сумма сдачи
+        //public int TotalSumChange()
+        //{
+        //    int Sum = 0;
 
-            for (int i = 0; i < moneyForChange.Count; i++)
-            {
-                Sum += moneyForChange[0].Rating * moneyForChange[i].Quantity;
-            }
+        //    for (int i = 0; i < moneyForChange.Count; i++)
+        //    {
+        //        Sum += moneyForChange[0].Rating * moneyForChange[i].Quantity;
+        //    }
 
-            return Sum;
-        }
+        //    return Sum;
+        //}
 
-        //сумма денег в автомате
-        public void TotalSumInMachine()
-        {
-            for (int i = 0; i < coinsInVendingMashine.Count; i++)
-            {
-                totalSum += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
-            }
-        }
+        ////сумма денег в автомате
+        //public void TotalSumInMachine()
+        //{
+        //    for (int i = 0; i < coinsInVendingMashine.Count; i++)
+        //    {
+        //        totalSum += coinsInVendingMashine[i].Rating * coinsInVendingMashine[i].Quantity;
+        //    }
+        //}
 
         //возвращаем деньги в машину
         public void ReturnMoneyInMachine()
