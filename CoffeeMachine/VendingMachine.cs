@@ -121,6 +121,7 @@ namespace CoffeeMachine
             {
                 totalSum -= AmountPaid - drink.Price;
                 GiveChange();
+                MessageBuyCoffee = "Спасибо за покупку!";
                 CoinsInMachineValue();
             }
             else //ечли в машине нет денег для сдачи
@@ -239,8 +240,6 @@ namespace CoffeeMachine
             {
                 clientChange += $"Общая сумма {AmountPaid} руб.";
             }
-
-            MessageBuyCoffee = "Спасибо за покупку!";
 
             ClearMoneyForChange(); //очищаем коллекцию для сдачи
         }
