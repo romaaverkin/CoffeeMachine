@@ -147,7 +147,6 @@ namespace CoffeeMachine
         //Устанавливает видимость поля спасибо за покупку
         public void VisibleThankLabel()
         {
-            thankLabel.Visible = vendingMachine.CoffeBuy;
             thankLabel.Text = vendingMachine.MessageBuyCoffee;
         }
     }

@@ -100,7 +100,6 @@
             this.thankLabel.Name = "thankLabel";
             this.thankLabel.Size = new System.Drawing.Size(0, 13);
             this.thankLabel.TabIndex = 7;
-            this.thankLabel.Visible = false;
             // 
             // Form1
             // 
