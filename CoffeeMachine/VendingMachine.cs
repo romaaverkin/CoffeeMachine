@@ -61,6 +61,7 @@ namespace CoffeeMachine
             new Drink("Капучино", 35),
             new Drink("Кофе с молоком", 22),
             new Drink("Латте", 39),
+            new Drink("3 в 1", 37)
         };
 
         //Коллекция видов монет
@@ -71,13 +72,16 @@ namespace CoffeeMachine
             //new Coin(10, 10),
             //new Coin(5, 10),
             //new Coin(25, 2),
-            //new Coin(1, 15)
+            //new Coin(1, 15),
+            //new Coin(21, 5),
+            //new Coin(100, 3)
 
-            new Coin(2, 0),
-            new Coin(10, 0),
-            new Coin(5, 0),
-            new Coin(25, 1),
-            new Coin(1, 0)
+            new Coin(2, 10),
+            new Coin(10, 10),
+            new Coin(5, 10),
+            new Coin(25, 2),
+            new Coin(1, 15),
+            new Coin(100, 3)
         };
 
         //Конструктор
@@ -100,7 +104,6 @@ namespace CoffeeMachine
 
             //Устанавливаем цену самого дорогого напитка
             PriceMostExpensiveDrink = myDrinks[myDrinks.Count - 1].Price;
-
         }
 
         //Клик по кнопке выбора напитков
@@ -175,6 +178,60 @@ namespace CoffeeMachine
         //Сдача
         public bool MoneyForChange(int change)
         {
+            int amnt = change;
+
+            List<int> coinCount = new List<int>();
+            for (int i = 0; i <= change; i++)
+            {
+                coinCount.Add(0);
+            }
+
+            List<int> coinsUsed = new List<int>();
+            for (int i = 0; i <= change; i++)
+            {
+                coinsUsed.Add(0);
+            }
+
+            foreach (int cents in Enumerable.Range(0, amnt + 1))
+            {
+                int coinQuantity = cents;
+                int newCoin = 1;
+                foreach (int j in (from c in coinsInVendingMashine
+                                   where c.Rating <= cents
+                                   select c.Rating).ToList())
+                {
+                    if (coinCount[cents - j] + 1 < coinQuantity)
+                    {
+                        coinQuantity = coinCount[cents - j] + 1;
+                        newCoin = j;
+                    }
+                }
+                coinCount[cents] = coinQuantity;
+                coinsUsed[cents] = newCoin;
+            }
+
+            int QuantituMoney = coinCount[amnt];
+
+            int coin = change;
+
+            List<int> ClientChange = new List<int>();
+            while (coin > 0)
+            {
+                int thisCoin = coinsUsed[coin];
+                //Console.WriteLine(thisCoin);
+                ClientChange.Add(thisCoin);
+                coin -= thisCoin;
+            }
+
+            for (int i = 0; i < ClientChange.Count; i++)
+            {
+                if (ClientChange[i] == coinsInVendingMashine[i].Rating)
+                {
+
+                }
+            }
+
+            //Жадный метод
             for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
             {
 
