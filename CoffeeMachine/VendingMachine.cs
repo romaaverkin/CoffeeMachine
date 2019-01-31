@@ -61,7 +61,8 @@ namespace CoffeeMachine
             new Drink("Капучино", 35),
             new Drink("Кофе с молоком", 22),
             new Drink("Латте", 39),
-            new Drink("3 в 1", 37)
+            new Drink("3 в 1", 37),
+            new Drink("Иное", 63)
         };
 
         //Коллекция видов монет
@@ -76,12 +77,13 @@ namespace CoffeeMachine
             //new Coin(21, 5),
             //new Coin(100, 3)
 
-            new Coin(2, 10),
-            new Coin(10, 10),
-            new Coin(5, 10),
-            new Coin(25, 2),
-            new Coin(1, 15),
-            new Coin(100, 3)
+            new Coin(2, 0),
+            new Coin(10, 0),
+            new Coin(5, 0),
+            new Coin(25, 0),
+            new Coin(1, 0),
+            new Coin(21, 3),
+            new Coin(100, 0)
         };
 
         //Конструктор
@@ -120,19 +122,34 @@ namespace CoffeeMachine
             {
                 MessageBuyCoffee = "Спсибо, что без сдачи!";
             }
-            else if (MoneyForChange(AmountPaid - drink.Price))//если в машине есть деньги для сдачи
+            else if (MoneyForChangeNoGreedy(AmountPaid - drink.Price)) //не жадный метод
             {
                 totalSum -= AmountPaid - drink.Price;
                 GiveChange();
                 MessageBuyCoffee = "Спасибо за покупку!";
                 CoinsInMachineValue();
             }
-            else //ечли в машине нет денег для сдачи
+            else if (MoneyForChangeGreedy(AmountPaid - drink.Price)) //жадный метод, если в машине есть деньги для сдачи
+            {
+                totalSum -= AmountPaid - drink.Price;
+                GiveChange();
+                MessageBuyCoffee = "Спасибо за покупку!";
+                CoinsInMachineValue();
+            }
+            else if(MoneyForChangeNoGreedy(AmountPaid)) //не жадный метод, если в машине есть деньги для сдачи
+            {
+                CoffeBuy = false;
+                GiveChange();
+                totalSum -= AmountPaid;
+                MessageBuyCoffee = "Приносим извинения!";
+                CoinsInMachineValue();
+            }
+            else //жадный метод, если в машине нет денег для сдачи
             {
                 CoffeBuy = false;
                 ReturnMoneyInMachine();
                 ClearMoneyForChange();
-                MoneyForChange(AmountPaid);
+                MoneyForChangeGreedy(AmountPaid);
                 GiveChange();
                 totalSum -= AmountPaid;
                 MessageBuyCoffee = "Приносим извинения!";
@@ -175,11 +192,9 @@ namespace CoffeeMachine
             EventClickButtonMoney?.Invoke();
         }
 
-        //Сдача
-        public bool MoneyForChange(int change)
+        //Не жадный метод
+        public bool MoneyForChangeNoGreedy(int change)
         {
-            int amnt = change;
-
             List<int> coinCount = new List<int>();
             for (int i = 0; i <= change; i++)
             {
@@ -192,7 +207,7 @@ namespace CoffeeMachine
                 coinsUsed.Add(0);
             }
 
-            foreach (int cents in Enumerable.Range(0, amnt + 1))
+            foreach (int cents in Enumerable.Range(0, change + 1))
             {
                 int coinQuantity = cents;
                 int newCoin = 1;
@@ -210,28 +225,49 @@ namespace CoffeeMachine
                 coinsUsed[cents] = newCoin;
             }
 
-            int QuantituMoney = coinCount[amnt];
+            //int QuantituMoney = coinCount[change];
 
             int coin = change;
 
-            List<int> ClientChange = new List<int>();
+            //Заполняем коллекцию монет для сдачи
             while (coin > 0)
             {
                 int thisCoin = coinsUsed[coin];
-                //Console.WriteLine(thisCoin);
-                ClientChange.Add(thisCoin);
+                int iTemp = 0;
+                for (int i = iTemp; i < moneyForChange.Count; i++)
+                {
+                    if (moneyForChange[i].Rating == thisCoin)
+                    {
+                        moneyForChange[i].Quantity++;
+                        iTemp = i;
+                        break;
+                    }
+                }
                 coin -= thisCoin;
             }
 
-            for (int i = 0; i < ClientChange.Count; i++)
+            //Проверяем наличие необходимых монет для сдачи в автомате
+            for (int i = 0; i < moneyForChange.Count; i++)
             {
-                if (ClientChange[i] == coinsInVendingMashine[i].Rating)
+                if (moneyForChange[i].Quantity > coinsInVendingMashine[i].Quantity)
                 {
-
+                    ClearMoneyForChange();
+                    return false;
                 }
             }
 
-            //Жадный метод
+            //Вынимем монеты для сдачи из машины
+            for (int i = 0; i < moneyForChange.Count; i++)
+            {
+                coinsInVendingMashine[i].Quantity -= moneyForChange[i].Quantity;
+            }
+
+            return true;
+        }
+
+        //Жадный метод
+        public bool MoneyForChangeGreedy(int change)
+        {
             for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
             {
 
@@ -277,13 +313,11 @@ namespace CoffeeMachine
             return true;
         }
 
-        //В автомате не хватило денег для сдачи
-        //Todo: Надо использовать не только жадный метод
+        //Формируем строку для сдачи
         public void GiveChange()
         {
             clientChange = "Ваша сдача\n";
 
-            //Формируем строку для сдачи
             for (int i = 0; i < moneyForChange.Count; i++)
             {
                 clientChange += $"{moneyForChange[i].Rating.ToString()} руб. в количестве {moneyForChange[i].Quantity.ToString()} штук\n";
