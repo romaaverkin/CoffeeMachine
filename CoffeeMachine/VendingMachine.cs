@@ -122,7 +122,7 @@ namespace CoffeeMachine
             {
                 MessageBuyCoffee = "Спсибо, что без сдачи!";
             }
-            else if (MoneyForChangeNoGreedy(AmountPaid - drink.Price)) //не жадный метод
+            else if (MoneyForChangeNoGreedy(AmountPaid - drink.Price)) //не жадный метод, если в машине есть деньги для сдачи
             {
                 totalSum -= AmountPaid - drink.Price;
                 GiveChange();
@@ -144,12 +144,12 @@ namespace CoffeeMachine
                 MessageBuyCoffee = "Приносим извинения!";
                 CoinsInMachineValue();
             }
-            else //жадный метод, если в машине нет денег для сдачи
+            else if(MoneyForChangeGreedy(AmountPaid)) //жадный метод, если в машине нет денег для сдачи
             {
                 CoffeBuy = false;
-                ReturnMoneyInMachine();
-                ClearMoneyForChange();
-                MoneyForChangeGreedy(AmountPaid);
+                //ReturnMoneyInMachine();
+                //ClearMoneyForChange();
+                //MoneyForChangeGreedy(AmountPaid);
                 GiveChange();
                 totalSum -= AmountPaid;
                 MessageBuyCoffee = "Приносим извинения!";
@@ -280,7 +280,7 @@ namespace CoffeeMachine
                     if (coinsInVendingMashine[i].Quantity != 0)
                     {
                         moneyForChange[i].Quantity++;
-                        coinsInVendingMashine[i].Quantity--;
+                        //coinsInVendingMashine[i].Quantity--;
                         change -= coinsInVendingMashine[i].Rating;
                         break;
                     }
@@ -294,7 +294,7 @@ namespace CoffeeMachine
                     while (coinsInVendingMashine[i].Quantity != 0 && change >= coinsInVendingMashine[i].Rating)
                     {
                         moneyForChange[i].Quantity++;
-                        coinsInVendingMashine[i].Quantity--;
+                        //coinsInVendingMashine[i].Quantity--;
                         change -= coinsInVendingMashine[i].Rating;
                     }
                 }
@@ -305,9 +305,20 @@ namespace CoffeeMachine
 
             }
 
-            if (change != 0)
+            //Проверяем наличие необходимых монет для сдачи в автомате
+            for (int i = 0; i < moneyForChange.Count; i++)
             {
-                return false;
+                if (moneyForChange[i].Quantity > coinsInVendingMashine[i].Quantity)
+                {
+                    ClearMoneyForChange();
+                    return false;
+                }
+            }
+
+            //Вынимем монеты для сдачи из машины
+            for (int i = 0; i < moneyForChange.Count; i++)
+            {
+                coinsInVendingMashine[i].Quantity -= moneyForChange[i].Quantity;
             }
 
             return true;
