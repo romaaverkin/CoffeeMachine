@@ -56,34 +56,39 @@ namespace CoffeeMachine
         public List<Drink> myDrinks = new List<Drink>
         {
             //Можно добавить новые виды кофе
+            //new Drink("Черный кофе", 16),
+            //new Drink("Кипяток", 8),
+            //new Drink("Капучино", 35),
+            //new Drink("Кофе с молоком", 22),
+            //new Drink("Латте", 39),
+            //new Drink("3 в 1", 37),
+            //new Drink("Иное", 63)
+
             new Drink("Черный кофе", 16),
             new Drink("Кипяток", 8),
             new Drink("Капучино", 35),
             new Drink("Кофе с молоком", 22),
-            new Drink("Латте", 39),
-            new Drink("3 в 1", 37),
-            new Drink("Иное", 63)
+            new Drink("Латте", 39)
         };
 
         //Коллекция видов монет
         public List<Coin> coinsInVendingMashine = new List<Coin>
         {
             //Можно добавлять новые номиналы
-            //new Coin(2, 10),
-            //new Coin(10, 10),
-            //new Coin(5, 10),
-            //new Coin(25, 2),
-            //new Coin(1, 15),
-            //new Coin(21, 5),
-            //new Coin(100, 3)
+            new Coin(2, 10),
+            new Coin(10, 10),
+            //new Coin(9, 5),
+            new Coin(5, 10),
+            new Coin(25, 2),
+            new Coin(1, 15)
 
-            new Coin(2, 0),
-            new Coin(10, 0),
-            new Coin(5, 0),
-            new Coin(25, 0),
-            new Coin(1, 0),
-            new Coin(21, 3),
-            new Coin(100, 0)
+            //new Coin(2, 0),
+            //new Coin(10, 0),
+            //new Coin(5, 0),
+            //new Coin(25, 0),
+            //new Coin(1, 0),
+            //new Coin(21, 3),
+            //new Coin(100, 0)
         };
 
         //Конструктор
