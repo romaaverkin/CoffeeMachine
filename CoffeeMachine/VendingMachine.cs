@@ -7,9 +7,6 @@ namespace CoffeeMachine
 {
     class VendingMachine
     {
-        public delegate void MethodSetValue(string value);
-        public event MethodSetValue ChangeInMachine;
-
         public delegate void DelegateClickButtonMoney();
         public event DelegateClickButtonMoney EventClickButtonMoney;
 
@@ -55,15 +52,6 @@ namespace CoffeeMachine
         //Коллекция видов кофе
         public List<Drink> myDrinks = new List<Drink>
         {
-            //Можно добавить новые виды кофе
-            //new Drink("Черный кофе", 16),
-            //new Drink("Кипяток", 8),
-            //new Drink("Капучино", 35),
-            //new Drink("Кофе с молоком", 22),
-            //new Drink("Латте", 39),
-            //new Drink("3 в 1", 37),
-            //new Drink("Иное", 63)
-
             new Drink("Черный кофе", 16),
             new Drink("Кипяток", 8),
             new Drink("Капучино", 35),
@@ -77,18 +65,9 @@ namespace CoffeeMachine
             //Можно добавлять новые номиналы
             new Coin(2, 10),
             new Coin(10, 10),
-            //new Coin(9, 5),
             new Coin(5, 10),
             new Coin(25, 2),
             new Coin(1, 15)
-
-            //new Coin(2, 0),
-            //new Coin(10, 0),
-            //new Coin(5, 0),
-            //new Coin(25, 0),
-            //new Coin(1, 0),
-            //new Coin(21, 3),
-            //new Coin(100, 0)
         };
 
         //Конструктор
@@ -152,9 +131,6 @@ namespace CoffeeMachine
             else if(MoneyForChangeGreedy(AmountPaid)) //жадный метод, если в машине нет денег для сдачи
             {
                 CoffeBuy = false;
-                //ReturnMoneyInMachine();
-                //ClearMoneyForChange();
-                //MoneyForChangeGreedy(AmountPaid);
                 GiveChange();
                 totalSum -= AmountPaid;
                 MessageBuyCoffee = "Приносим извинения!";
@@ -163,6 +139,7 @@ namespace CoffeeMachine
 
             AmountPaid = 0;
 
+            //Для всех подписавшихся на это событие
             EventClickButtonDrink?.Invoke();
         }
 
@@ -194,6 +171,7 @@ namespace CoffeeMachine
                 }
             }
 
+            //Для всех подписавшихся на это событие
             EventClickButtonMoney?.Invoke();
         }
 
@@ -230,11 +208,9 @@ namespace CoffeeMachine
                 coinsUsed[cents] = newCoin;
             }
 
-            //int QuantituMoney = coinCount[change];
-
+            //Заполняем коллекцию монет для сдачи
             int coin = change;
 
-            //Заполняем коллекцию монет для сдачи
             while (coin > 0)
             {
                 int thisCoin = coinsUsed[coin];
@@ -275,7 +251,6 @@ namespace CoffeeMachine
         {
             for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
             {
-
                 if (change < coinsInVendingMashine[i].Rating)
                 {
                     continue;
@@ -285,7 +260,6 @@ namespace CoffeeMachine
                     if (coinsInVendingMashine[i].Quantity != 0)
                     {
                         moneyForChange[i].Quantity++;
-                        //coinsInVendingMashine[i].Quantity--;
                         change -= coinsInVendingMashine[i].Rating;
                         break;
                     }
@@ -299,7 +273,6 @@ namespace CoffeeMachine
                     while (coinsInVendingMashine[i].Quantity != 0 && change >= coinsInVendingMashine[i].Rating)
                     {
                         moneyForChange[i].Quantity++;
-                        //coinsInVendingMashine[i].Quantity--;
                         change -= coinsInVendingMashine[i].Rating;
                     }
                 }
@@ -307,7 +280,6 @@ namespace CoffeeMachine
                 {
                     continue;
                 }
-
             }
 
             //Проверяем наличие необходимых монет для сдачи в автомате
