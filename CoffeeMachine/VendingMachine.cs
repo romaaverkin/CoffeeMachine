@@ -123,7 +123,7 @@ namespace CoffeeMachine
                 MessageBuyCoffee = "Спасибо за покупку!";
                 CoinsInMachineValue();
             }
-            else if(MoneyForChangeNoGreedy(AmountPaid)) //не жадный метод, если в машине есть деньги для сдачи
+            else if(MoneyForChangeNoGreedy(AmountPaid)) //не жадный метод, если в машине нет денег для сдачи
             {
                 CoffeBuy = false;
                 GiveChange();
