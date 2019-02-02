@@ -56,18 +56,21 @@ namespace CoffeeMachine
             new Drink("Кипяток", 8),
             new Drink("Капучино", 35),
             new Drink("Кофе с молоком", 22),
-            new Drink("Латте", 39)
+            new Drink("Латте", 39),
+            new Drink("3 в 1", 37)
         };
 
         //Коллекция видов монет
         public List<Coin> coinsInVendingMashine = new List<Coin>
         {
             //Можно добавлять новые номиналы
-            new Coin(2, 0),
-            new Coin(10, 0),
-            new Coin(5, 0),
-            new Coin(25, 0),
-            new Coin(1, 0)
+            new Coin(2, 10),
+            new Coin(10, 10),
+            new Coin(5, 10),
+            new Coin(25, 2),
+            new Coin(1, 15),
+            new Coin(100, 1),
+            new Coin(21, 3)
         };
 
         //Конструктор
@@ -249,18 +252,19 @@ namespace CoffeeMachine
         //Жадный метод
         public bool MoneyForChangeGreedy(int change)
         {
+            int changeTemp = change;
             for (int i = coinsInVendingMashine.Count - 1; i >= 0; i--)
             {
-                if (change < coinsInVendingMashine[i].Rating)
+                if (changeTemp < coinsInVendingMashine[i].Rating)
                 {
                     continue;
                 }
-                else if (change == coinsInVendingMashine[i].Rating)
+                else if (changeTemp == coinsInVendingMashine[i].Rating)
                 {
                     if (coinsInVendingMashine[i].Quantity != 0)
                     {
                         moneyForChange[i].Quantity++;
-                        change -= coinsInVendingMashine[i].Rating;
+                        changeTemp -= coinsInVendingMashine[i].Rating;
                         break;
                     }
                     else
@@ -270,10 +274,13 @@ namespace CoffeeMachine
                 }
                 else if (coinsInVendingMashine[i].Quantity != 0)
                 {
-                    while (coinsInVendingMashine[i].Quantity != 0 && change >= coinsInVendingMashine[i].Rating)
+                    int temp = coinsInVendingMashine[i].Quantity;
+
+                    while (temp != 0 && changeTemp >= coinsInVendingMashine[i].Rating)
                     {
                         moneyForChange[i].Quantity++;
-                        change -= coinsInVendingMashine[i].Rating;
+                        temp--;
+                        changeTemp -= coinsInVendingMashine[i].Rating;
                     }
                 }
                 else
@@ -283,22 +290,28 @@ namespace CoffeeMachine
             }
 
             //Проверяем наличие необходимых монет для сдачи в автомате
+            int sumInMoneyForChange = 0;
+
             for (int i = 0; i < moneyForChange.Count; i++)
             {
-                if (moneyForChange[i].Quantity > coinsInVendingMashine[i].Quantity)
+                sumInMoneyForChange += moneyForChange[i].Rating * moneyForChange[i].Quantity;
+            }
+
+            if (sumInMoneyForChange < change)
+            {
+                ClearMoneyForChange();
+                return false;
+            }
+            else
+            {
+                //Вынимем монеты для сдачи из машины
+                for (int i = 0; i < moneyForChange.Count; i++)
                 {
-                    ClearMoneyForChange();
-                    return false;
+                    coinsInVendingMashine[i].Quantity -= moneyForChange[i].Quantity;
                 }
-            }
 
-            //Вынимем монеты для сдачи из машины
-            for (int i = 0; i < moneyForChange.Count; i++)
-            {
-                coinsInVendingMashine[i].Quantity -= moneyForChange[i].Quantity;
+                return true;
             }
-
-            return true;
         }
 
         //Формируем строку для сдачи
