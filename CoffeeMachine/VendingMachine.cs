@@ -63,11 +63,11 @@ namespace CoffeeMachine
         public List<Coin> coinsInVendingMashine = new List<Coin>
         {
             //Можно добавлять новые номиналы
-            new Coin(2, 10),
-            new Coin(10, 10),
-            new Coin(5, 10),
-            new Coin(25, 2),
-            new Coin(1, 15)
+            new Coin(2, 0),
+            new Coin(10, 0),
+            new Coin(5, 0),
+            new Coin(25, 0),
+            new Coin(1, 0)
         };
 
         //Конструктор
@@ -230,7 +230,7 @@ namespace CoffeeMachine
             //Проверяем наличие необходимых монет для сдачи в автомате
             for (int i = 0; i < moneyForChange.Count; i++)
             {
-                if (moneyForChange[i].Quantity > coinsInVendingMashine[i].Quantity)
+                if (coinsInVendingMashine[i].Quantity - moneyForChange[i].Quantity < 0)
                 {
                     ClearMoneyForChange();
                     return false;
